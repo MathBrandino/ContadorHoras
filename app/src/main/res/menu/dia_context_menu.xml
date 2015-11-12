@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_deletar"
+        android:title="Deletar" />
+    <item
+        android:id="@+id/menu_upload"
+        android:title="Subir horas" />
+    <item
+        android:id="@+id/menu_cadastra_tarefa"
+        android:title="Cadastra tarefa" />
+</menu>

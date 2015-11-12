@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="br.com.caelum.contadorhoras">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/temp"
+        android:label="Lançador de Horas"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name=".activity.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.ListaTarefasUploadActivity"
+            android:label="Confira suas tarefas" />
+        <activity
+            android:name=".activity.CadastroDiaTrabalhadoActivity"
+            android:label="Cadastra Dia" />
+        <activity
+            android:name=".activity.ListaDiasActivity"
+            android:label="Escolha o Dia" />
+        <activity
+            android:name=".activity.CadastraTarefaActivity"
+            android:label="Cadastra Tarefa" />
+    </application>
+
+</manifest>
