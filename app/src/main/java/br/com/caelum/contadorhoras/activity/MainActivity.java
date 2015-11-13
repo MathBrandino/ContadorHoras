@@ -34,9 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
         preparaComponentes();
 
-        setSupportActionBar(toolbar);
-
         preparaVisualicaoDaTela();
+
         populaListaFragment();
 
 
@@ -46,9 +45,23 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
         viewPager = (ViewPager) findViewById(R.id.view_pager_main);
         toolbar = (Toolbar) findViewById(R.id.toolbar_main);
+        setSupportActionBar(toolbar);
     }
 
     private void populaListaFragment() {
+        preparaListaDeFragments();
+
+        adaptaViewPager();
+
+        viewPager.setCurrentItem(0);
+    }
+
+    private void adaptaViewPager() {
+        ContadorPagerAdapter adapter = new ContadorPagerAdapter(getSupportFragmentManager(), fragments);
+        viewPager.setAdapter(adapter);
+    }
+
+    private void preparaListaDeFragments() {
         diaFragment = new DiaFragment();
         tarefaFragment = new TarefaFragment();
 
@@ -56,11 +69,6 @@ public class MainActivity extends AppCompatActivity {
 
         fragments.add(diaFragment);
         fragments.add(tarefaFragment);
-
-        ContadorPagerAdapter adapter = new ContadorPagerAdapter(getSupportFragmentManager(), fragments);
-        viewPager.setAdapter(adapter);
-
-        viewPager.setCurrentItem(0);
     }
 
     private void preparaVisualicaoDaTela() {

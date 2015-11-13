@@ -22,6 +22,7 @@ import br.com.caelum.contadorhoras.modelo.Dia;
 public class ListaDiasActivity extends AppCompatActivity {
 
     private ListView listaDeDias;
+    private ListaDiasActivity that = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +33,12 @@ public class ListaDiasActivity extends AppCompatActivity {
 
         carregaLista();
 
-        final ListaDiasActivity that = this;
+        mudaParaCadastro();
+
+    }
+
+    private void mudaParaCadastro() {
+
         listaDeDias.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

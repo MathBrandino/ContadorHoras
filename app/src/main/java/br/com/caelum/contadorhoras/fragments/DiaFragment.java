@@ -40,8 +40,15 @@ public class DiaFragment extends Fragment {
         View view = inflater.inflate(R.layout.dias_fragment, container, false);
 
         listaDiasTrabalhados = (ListView) view.findViewById(R.id.lista_dias_trabalhados);
+
+        vaiParaDiaSelecionado();
+
         registerForContextMenu(listaDiasTrabalhados);
 
+        return view;
+    }
+
+    private void vaiParaDiaSelecionado() {
         listaDiasTrabalhados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -53,7 +60,6 @@ public class DiaFragment extends Fragment {
 
             }
         });
-        return view;
     }
 
     protected void carregaLista() {

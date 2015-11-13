@@ -56,6 +56,11 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
         pegaListaTarefas();
 
+        vaiParaTarefaSelecionada();
+
+    }
+
+    private void vaiParaTarefaSelecionada() {
         listaTarefas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -67,7 +72,6 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
             }
         });
-
     }
 
     private void pegaListaTarefas() {
