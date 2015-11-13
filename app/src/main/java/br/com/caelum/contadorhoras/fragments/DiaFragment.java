@@ -1,5 +1,7 @@
 package br.com.caelum.contadorhoras.fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -20,6 +22,7 @@ import br.com.caelum.contadorhoras.activity.CadastroDiaTrabalhadoActivity;
 import br.com.caelum.contadorhoras.activity.ListaTarefasUploadActivity;
 import br.com.caelum.contadorhoras.activity.MainActivity;
 import br.com.caelum.contadorhoras.dao.DiaDao;
+import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.fragments.adapter.DiasTrabalhadosAdapter;
 import br.com.caelum.contadorhoras.modelo.Dia;
 
@@ -47,6 +50,7 @@ public class DiaFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CadastroDiaTrabalhadoActivity.class);
                 intent.putExtra("dia", dia);
                 startActivity(intent);
+
             }
         });
         return view;
@@ -92,10 +96,29 @@ public class DiaFragment extends Fragment {
         upload.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
+                final TarefaDao dao = new TarefaDao(getContext());
+                if (dao.pegaTarefasDoDia(dia).size() >= 1) {
 
-                Intent intent = new Intent(getActivity(), ListaTarefasUploadActivity.class);
-                intent.putExtra("dia", dia);
-                startActivity(intent);
+                    Intent intent = new Intent(getActivity(), ListaTarefasUploadActivity.class);
+                    intent.putExtra("dia", dia);
+                    startActivity(intent);
+                } else {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle("Atenção !")
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setMessage("Você não possui nenhuma hora para esse dia !")
+                            .setPositiveButton("Cadastrar hora  ", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent(getActivity(), CadastraTarefaActivity.class);
+                                    intent.putExtra("dia", dia);
+                                    startActivity(intent);
+                                }
+                            })
+                            .show();
+                    dao.close();
+                }
                 return true;
             }
         });

@@ -38,7 +38,7 @@ public class TarefaDao implements Closeable {
         dados.put(HORA_INICIAL, tarefa.getHoraInicial());
         dados.put(HORA_FINAL, tarefa.getHoraFinal());
         dados.put(MINUTO_INICIAL, tarefa.getMinutoInicial());
-        dados.put(MINUTO_FINAL, tarefa.getHoraFinal());
+        dados.put(MINUTO_FINAL, tarefa.getMinutoFinal());
 
         helperDao.getWritableDatabase().insert(TABELA, null, dados);
     }
