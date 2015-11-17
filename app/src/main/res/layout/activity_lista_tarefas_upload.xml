@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_lista_tarefas_upload"
         android:layout_width="match_parent"
-        android:background="#ec97fdbe"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="#ec97fdbe" />
 
     <ListView
         android:id="@+id/lista_tarefas_upload"
@@ -19,27 +19,27 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="horizontal"
+        android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_height="0dp">
+        android:orientation="horizontal">
 
 
         <TextView
             android:id="@+id/mostra_horas"
             android:layout_width="0dp"
-            android:layout_weight="3"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_weight="3"
             android:gravity="center" />
 
         <android.support.design.widget.FloatingActionButton
+            android:id="@+id/upload"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_gravity="bottom|right"
-            app:fabSize="mini"
-            android:id="@+id/upload"
-            android:src="@android:drawable/stat_sys_upload_done"/>
+            android:layout_weight="1"
+            android:src="@android:drawable/stat_sys_upload_done"
+            app:fabSize="mini" />
 
     </LinearLayout>
 

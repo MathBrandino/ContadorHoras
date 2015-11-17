@@ -1,7 +1,6 @@
 package br.com.caelum.contadorhoras.servidor;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
@@ -16,7 +15,7 @@ public class WebClient {
 
     private URL url;
 
-    public String post(String json){
+    public String post(String json) {
 
         try {
             url = new URL("https://caelumweb.caelum.com.br/caelumweb");

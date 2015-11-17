@@ -8,7 +8,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -188,11 +187,11 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         return json;
     }
 
-    private AlertDialog alertaComJson(){
+    private AlertDialog alertaComJson() {
         return new AlertDialog.Builder(this).setMessage(geraJson()).show();
     }
 
-    private void enviaJsonParaServidor(String json){
+    private void enviaJsonParaServidor(String json) {
 
         new UploadTarefasTask(json, this).execute();
 
