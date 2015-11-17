@@ -30,7 +30,7 @@ public class DiaDao implements Closeable {
     public void deleta(Dia dia) {
         helperDao.getWritableDatabase().delete(TABELA, ID + " = ?", new String[]{String.valueOf(dia.getId())});
         TarefaDao dao = new TarefaDao(ctx);
-        dao.deletaPorDia(dia.getId());
+        dao.deletaPorDia(dia.getData());
         dao.close();
     }
 
@@ -76,8 +76,8 @@ public class DiaDao implements Closeable {
         helperDao.close();
     }
 
-    public String getData(Long idDia) {
-        Cursor cursor = helperDao.getReadableDatabase().rawQuery("Select " + DATA + " from " + TABELA + " where " + ID + " = ?", new String[]{idDia.toString()});
+    public String getData(String dataDia) {
+        Cursor cursor = helperDao.getReadableDatabase().rawQuery("Select * from " + TABELA + " where " + DATA + " = ?", new String[]{dataDia});
 
         String data = null;
         if (cursor.moveToNext())

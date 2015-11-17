@@ -58,7 +58,7 @@ public class TarefasAdapter extends BaseAdapter {
         TextView descricao = (TextView) view.findViewById(R.id.descricao_tarefa);
 
         DiaDao dao = new DiaDao(activity);
-        tarefaDia.setText(dao.getData(tarefa.getIdDia()));
+        tarefaDia.setText(dao.getData(tarefa.getDataDia()));
         dao.close();
 
         tempoInicial.setText("" + tarefa.getHoraInicial() + " : " + tarefa.getMinutoInicial());

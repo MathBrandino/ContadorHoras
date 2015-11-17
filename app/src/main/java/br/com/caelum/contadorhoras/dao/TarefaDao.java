@@ -22,7 +22,7 @@ public class TarefaDao implements Closeable {
     private static final String HORA_FINAL = "horaFinal";
     private static final String MINUTO_INICIAL = "minutoInicial";
     private static final String MINUTO_FINAL = "minutoFinal";
-    private static final String ID_DIA = "idDia";
+    private static final String DATA_DIA = "dataDia";
     private DatabaseHelperDao helperDao;
 
     public TarefaDao(Context context) {
@@ -33,7 +33,7 @@ public class TarefaDao implements Closeable {
 
         ContentValues dados = new ContentValues();
 
-        dados.put(ID_DIA, tarefa.getIdDia());
+        dados.put(DATA_DIA, tarefa.getDataDia());
         dados.put(DESC, tarefa.getDesc());
         dados.put(HORA_INICIAL, tarefa.getHoraInicial());
         dados.put(HORA_FINAL, tarefa.getHoraFinal());
@@ -47,7 +47,7 @@ public class TarefaDao implements Closeable {
 
         List<Tarefa> tarefas = new ArrayList<>();
 
-        String sql = "Select * from " + TABELA + " order by " + ID_DIA + " ;";
+        String sql = "Select * from " + TABELA + " order by " + DATA_DIA + " ;";
         Cursor cursor = helperDao.getReadableDatabase().rawQuery(sql, null);
 
         while (cursor.moveToNext()) {
@@ -61,7 +61,7 @@ public class TarefaDao implements Closeable {
 
         ContentValues dados = new ContentValues();
 
-        dados.put(ID_DIA, tarefa.getIdDia());
+        dados.put(DATA_DIA, tarefa.getDataDia());
         dados.put(DESC, tarefa.getDesc());
         dados.put(HORA_FINAL, tarefa.getHoraFinal());
         dados.put(HORA_INICIAL, tarefa.getHoraInicial());
@@ -83,7 +83,7 @@ public class TarefaDao implements Closeable {
         Tarefa tarefa = new Tarefa();
 
         tarefa.setId(cursor.getLong(cursor.getColumnIndex("id")));
-        tarefa.setIdDia(cursor.getLong(cursor.getColumnIndex(ID_DIA)));
+        tarefa.setDataDia(cursor.getString(cursor.getColumnIndex(DATA_DIA)));
         tarefa.setDesc(cursor.getString(cursor.getColumnIndex(DESC)));
         tarefa.setHoraFinal(cursor.getInt(cursor.getColumnIndex(HORA_FINAL)));
         tarefa.setMinutoFinal(cursor.getInt(cursor.getColumnIndex(MINUTO_FINAL)));
@@ -99,13 +99,13 @@ public class TarefaDao implements Closeable {
         helperDao.close();
     }
 
-    public void deletaPorDia(Long id) {
+    public void deletaPorDia(String data) {
 
-        helperDao.getWritableDatabase().delete(TABELA, ID_DIA + " = ?", new String[]{id.toString()});
+        helperDao.getWritableDatabase().delete(TABELA, DATA_DIA + " = ?", new String[]{data});
     }
 
-    public boolean hasTarefa(Long id) {
-        Cursor cursor = helperDao.getReadableDatabase().rawQuery("Select * from " + TABELA + " where " + ID_DIA + "  =  ?", new String[]{id.toString()});
+    public boolean hasTarefa(String data) {
+        Cursor cursor = helperDao.getReadableDatabase().rawQuery("Select * from " + TABELA + " where " + DATA_DIA + "  =  ?", new String[]{data});
 
         return cursor.moveToNext();
     }
@@ -113,8 +113,8 @@ public class TarefaDao implements Closeable {
     public List<Tarefa> pegaTarefasDoDia(Dia dia) {
         List<Tarefa> tarefas = new ArrayList<>();
 
-        String sql = "Select * from " + TABELA + " where " + ID_DIA + " = ? ;";
-        Cursor cursor = helperDao.getReadableDatabase().rawQuery(sql, new String[]{dia.getId().toString()});
+        String sql = "Select * from " + TABELA + " where " + DATA_DIA + " = ? ;";
+        Cursor cursor = helperDao.getReadableDatabase().rawQuery(sql, new String[]{dia.getData()});
 
         while (cursor.moveToNext()) {
             tarefas.add(populaTarefa(cursor));

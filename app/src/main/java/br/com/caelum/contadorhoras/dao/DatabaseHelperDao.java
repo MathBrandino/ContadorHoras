@@ -24,13 +24,13 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
 
         String query = "Create table Tarefa ( " +
                 "id integer primary key , " +
-                "idDia integer not null, " +
+                "dataDia text not null, " +
                 "desc text not null, " +
                 "horaInicial integer not null, " +
                 "minutoInicial integer not null, " +
                 "horaFinal integer not null , " +
                 "minutoFinal integer not null ," +
-                "FOREIGN KEY(idDia) REFERENCES Dia (id) ) ;";
+                "FOREIGN KEY(dataDia) REFERENCES Dia (data) ) ;";
 
 
         db.execSQL(sql);

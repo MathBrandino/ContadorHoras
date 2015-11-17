@@ -74,6 +74,8 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
                         dao.altera(dia);
                     }
 
+                    dao.close();
+
                     finish();
                 } else {
                     Snackbar.make(helper.getData(), "Selecione uma data, por gentileza", Snackbar.LENGTH_LONG).show();

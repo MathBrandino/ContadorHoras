@@ -41,20 +41,20 @@ public class DiaFragment extends Fragment {
 
         listaDiasTrabalhados = (ListView) view.findViewById(R.id.lista_dias_trabalhados);
 
-        vaiParaDiaSelecionado();
+        vaiParaCadastroDeTarefaDoDiaSelecionado();
 
         registerForContextMenu(listaDiasTrabalhados);
 
         return view;
     }
 
-    private void vaiParaDiaSelecionado() {
+    private void vaiParaCadastroDeTarefaDoDiaSelecionado() {
         listaDiasTrabalhados.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Dia dia = (Dia) parent.getItemAtPosition(position);
 
-                Intent intent = new Intent(getActivity(), CadastroDiaTrabalhadoActivity.class);
+                Intent intent = new Intent(getActivity(), CadastraTarefaActivity.class);
                 intent.putExtra("dia", dia);
                 startActivity(intent);
 
@@ -82,6 +82,7 @@ public class DiaFragment extends Fragment {
 
         MenuItem deletar = menu.findItem(R.id.menu_deletar);
         MenuItem upload = menu.findItem(R.id.menu_upload);
+        MenuItem alterar = menu.findItem(R.id.menu_alterar);
         MenuItem tarefa = menu.findItem(R.id.menu_cadastra_tarefa);
 
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -140,6 +141,18 @@ public class DiaFragment extends Fragment {
             }
         });
 
+
+        alterar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+
+                Intent intent = new Intent(getActivity(), CadastroDiaTrabalhadoActivity.class);
+                intent.putExtra("dia", dia);
+                startActivity(intent);
+
+                return true;
+            }
+        });
     }
 
     @Override

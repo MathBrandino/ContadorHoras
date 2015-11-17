@@ -3,8 +3,6 @@ package br.com.caelum.contadorhoras.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -21,10 +19,10 @@ import java.util.List;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.adapter.TarefasUploadAdapter;
+import br.com.caelum.contadorhoras.converter.TarefaConverter;
 import br.com.caelum.contadorhoras.dao.DiaDao;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.modelo.Dia;
-import br.com.caelum.contadorhoras.modelo.Login;
 import br.com.caelum.contadorhoras.modelo.Tarefa;
 
 /**
@@ -39,11 +37,6 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
     private List<Tarefa> tarefas;
     private long contador = 0;
     private String horasFinal;
-    private FloatingActionButton fab;
-    private TextView login;
-    private TextView senha;
-    private AlertDialog alert;
-    private Login caelumWebLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +91,8 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         for (Tarefa tarefa : tarefas) {
 
             DiaDao dao = new DiaDao(this);
-            String dia = dao.getData(tarefa.getIdDia());
+            String dia = dao.getData(tarefa.getDataDia());
+            dao.close();
             int horaInicial = tarefa.getHoraInicial();
             int minutoInicial = tarefa.getMinutoInicial();
             int horaFinal = tarefa.getHoraFinal();
@@ -158,24 +152,8 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         subirHoras.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                final View caelumWebView = getLayoutInflater().inflate(R.layout.mensagem_caelum_web, null);
 
-                populaTelaDeLoginCaelumWeb(caelumWebView);
-
-                alert = criaAlertView(caelumWebView);
-
-                fab.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        if (validaFormulario()) {
-                            caelumWebLogin = geraLogin();
-
-                            alert.dismiss();
-                        }
-                    }
-                });
-
+                alertaComJson();
 
                 return true;
             }
@@ -184,54 +162,11 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean validaFormulario() {
-        if (verificaLogin() && verificaSenha()) {
-            return true;
-        }
-        return false;
+    private String geraJson() {
+        return new TarefaConverter().toJson(tarefas);
     }
 
-    private boolean verificaLogin() {
-        TextInputLayout loginLayout = (TextInputLayout) login.getParent();
-        if (login.getText().toString().trim().isEmpty()) {
-            loginLayout.setError("Login Invalido");
-            return false;
-        }
-        if (loginLayout.getError() != null && loginLayout.getError().length() > 2) {
-            loginLayout.setError("");
-        }
-        return true;
-    }
-
-    private boolean verificaSenha() {
-        TextInputLayout loginLayout = (TextInputLayout) senha.getParent();
-
-        if (senha.getText().toString().trim().isEmpty()) {
-            loginLayout.setError("Senha Invalida");
-            return false;
-        }
-
-        if (loginLayout.getError() != null && loginLayout.getError().length() > 2) {
-            loginLayout.setError("");
-        }
-        return true;
-    }
-
-    private Login geraLogin() {
-        String loginCaelumWeb = login.getText().toString();
-        String senhaCaelumWeb = senha.getText().toString();
-        return new Login(loginCaelumWeb, senhaCaelumWeb);
-    }
-
-    private void populaTelaDeLoginCaelumWeb(View caelumWebView) {
-        fab = (FloatingActionButton) caelumWebView.findViewById(R.id.botao_caelum_web);
-        login = (TextView) caelumWebView.findViewById(R.id.login_caelum_web);
-        senha = (TextView) caelumWebView.findViewById(R.id.senha_caelum_web);
-    }
-
-    private AlertDialog criaAlertView(View caelumWebView) {
-        return new AlertDialog.Builder(ListaTarefasUploadActivity.this).setView(caelumWebView)
-                .setTitle("CaelumWeb")
-                .show();
+    private AlertDialog alertaComJson(){
+        return new AlertDialog.Builder(this).setMessage(geraJson()).show();
     }
 }

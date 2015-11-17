@@ -59,12 +59,13 @@ public class CadastraTarefaActivity extends AppCompatActivity {
                     Tarefa tarefa = helper.pegaTarefaFormulario();
 
                     if (tarefa.getId() == null) {
-                        tarefa.setIdDia(dia.getId());
+                        tarefa.setDataDia(dia.getData());
                         dao.insere(tarefa);
                     } else {
                         dao.altera(tarefa);
                     }
 
+                    dao.close();
                     finish();
                 }
 

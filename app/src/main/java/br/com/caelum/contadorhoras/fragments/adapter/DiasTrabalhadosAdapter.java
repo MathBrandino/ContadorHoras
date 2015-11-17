@@ -84,7 +84,7 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
     private void populaImageView(View view, Dia dia) {
         Bitmap bm;
         TarefaDao dao = new TarefaDao(activity);
-        boolean hasTarefa = dao.hasTarefa(dia.getId());
+        boolean hasTarefa = dao.hasTarefa(dia.getData());
         if (hasTarefa) {
             bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.positivo);
         } else {

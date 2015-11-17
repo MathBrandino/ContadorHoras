@@ -8,13 +8,20 @@ import java.io.Serializable;
 public class Tarefa implements Serializable {
 
     private Long id;
-    private Long idDia;
+    private String dataDia;
     private String desc;
     private int horaInicial;
     private int horaFinal;
     private int minutoInicial;
     private int minutoFinal;
 
+    public String getDataDia() {
+        return dataDia;
+    }
+
+    public void setDataDia(String dataDia) {
+        this.dataDia = dataDia;
+    }
 
     public int getMinutoInicial() {
         return minutoInicial;
@@ -46,14 +53,6 @@ public class Tarefa implements Serializable {
 
     public void setHoraInicial(int horaInicial) {
         this.horaInicial = horaInicial;
-    }
-
-    public Long getIdDia() {
-        return idDia;
-    }
-
-    public void setIdDia(Long idDia) {
-        this.idDia = idDia;
     }
 
     public String getDesc() {
