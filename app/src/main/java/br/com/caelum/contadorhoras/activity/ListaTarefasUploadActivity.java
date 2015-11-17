@@ -1,10 +1,13 @@
 package br.com.caelum.contadorhoras.activity;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +22,7 @@ import java.util.List;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.adapter.TarefasUploadAdapter;
+import br.com.caelum.contadorhoras.asynctask.UploadTarefasTask;
 import br.com.caelum.contadorhoras.converter.TarefaConverter;
 import br.com.caelum.contadorhoras.dao.DiaDao;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
@@ -37,6 +41,7 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
     private List<Tarefa> tarefas;
     private long contador = 0;
     private String horasFinal;
+    private FloatingActionButton sobeHoras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,37 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
         vaiParaTarefaSelecionada();
 
+        fazUploadDasHoras();
+
+    }
+
+    private void fazUploadDasHoras() {
+        sobeHoras.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                verificaSeDesejaSubir();
+            }
+        });
+    }
+
+    private void verificaSeDesejaSubir() {
+        new AlertDialog.Builder(this)
+                .setTitle("Atenção")
+                .setMessage("Deseja fazer upload das horas ?")
+                .setPositiveButton("Sim ", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        alertaComJson();
+                        //enviaJsonParaServidor(geraJson());
+                    }
+                })
+                .setNegativeButton("Ainda não", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 
     private void vaiParaTarefaSelecionada() {
@@ -83,6 +119,7 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         colocarToolbarNaTela();
         listaTarefas = (ListView) findViewById(R.id.lista_tarefas_upload);
         mensagemQuantidadeHoras = (TextView) findViewById(R.id.mostra_horas);
+        sobeHoras = (FloatingActionButton) findViewById(R.id.upload);
     }
 
     private String devolveQuantidadeDeHoras(List<Tarefa> tarefas, Long contador) {
@@ -143,30 +180,21 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuItem subirHoras = menu.add("Subir horas");
-        subirHoras.setIcon(android.R.drawable.ic_menu_upload);
-        subirHoras.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        subirHoras.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-
-                alertaComJson();
-
-                return true;
-            }
-        });
-
-        return true;
-    }
 
     private String geraJson() {
-        return new TarefaConverter().toJson(tarefas);
+
+        String json = new TarefaConverter().toJson(tarefas);
+        Log.i("json", json);
+        return json;
     }
 
     private AlertDialog alertaComJson(){
         return new AlertDialog.Builder(this).setMessage(geraJson()).show();
+    }
+
+    private void enviaJsonParaServidor(String json){
+
+        new UploadTarefasTask(json, this).execute();
+
     }
 }

@@ -116,10 +116,11 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
         MenuItem add = menu.findItem(R.id.adicionar);
-        if (viewPager.getCurrentItem() == 0) {
-            add.setTitle("Adiciona Dia");
-        } else if (viewPager.getCurrentItem() == 1) {
+        if (viewPager.getCurrentItem() == 1) {
+            add.setVisible(true);
             add.setTitle("Adiciona Tarefa");
+        } else {
+            add.setVisible(false);
         }
 
         return true;
@@ -132,9 +133,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.adicionar:
                 if (viewPager.getCurrentItem() == 1) {
                     Intent intent = new Intent(this, ListaDiasActivity.class);
-                    startActivity(intent);
-                } else if (viewPager.getCurrentItem() == 0) {
-                    Intent intent = new Intent(this, CadastroDiaTrabalhadoActivity.class);
                     startActivity(intent);
                 }
         }

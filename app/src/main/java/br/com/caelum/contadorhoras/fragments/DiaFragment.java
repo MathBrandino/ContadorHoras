@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ public class DiaFragment extends Fragment {
 
     private ListView listaDiasTrabalhados;
     private DiasTrabalhadosAdapter adapter;
+    private FloatingActionButton fab;
 
     @Nullable
     @Override
@@ -40,12 +42,25 @@ public class DiaFragment extends Fragment {
         View view = inflater.inflate(R.layout.dias_fragment, container, false);
 
         listaDiasTrabalhados = (ListView) view.findViewById(R.id.lista_dias_trabalhados);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
 
         vaiParaCadastroDeTarefaDoDiaSelecionado();
+
+        adicionaDia();
 
         registerForContextMenu(listaDiasTrabalhados);
 
         return view;
+    }
+
+    private void adicionaDia() {
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), CadastroDiaTrabalhadoActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     private void vaiParaCadastroDeTarefaDoDiaSelecionado() {
