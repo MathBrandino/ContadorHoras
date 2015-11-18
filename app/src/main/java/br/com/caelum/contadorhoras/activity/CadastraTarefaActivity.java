@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
@@ -61,8 +62,10 @@ public class CadastraTarefaActivity extends AppCompatActivity {
                     if (tarefa.getId() == null) {
                         tarefa.setDataDia(dia.getData());
                         dao.insere(tarefa);
+                        Toast.makeText(CadastraTarefaActivity.this, "Tarefa adicionada com sucesso", Toast.LENGTH_SHORT).show();
                     } else {
                         dao.altera(tarefa);
+                        Toast.makeText(CadastraTarefaActivity.this, "Tarefa alterada com sucesso", Toast.LENGTH_SHORT).show();
                     }
 
                     dao.close();

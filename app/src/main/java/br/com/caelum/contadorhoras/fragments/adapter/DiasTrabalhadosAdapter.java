@@ -25,6 +25,10 @@ import br.com.caelum.contadorhoras.modelo.Dia;
 public class DiasTrabalhadosAdapter extends BaseAdapter {
     private final List<Dia> dias;
     private final FragmentActivity activity;
+    private TextView semana;
+    private TextView data;
+    private Dia dia;
+    private ImageView sinal;
 
     public DiasTrabalhadosAdapter(FragmentActivity activity, List<Dia> dias) {
         this.activity = activity;
@@ -58,15 +62,24 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
             view = convertView;
         }
 
-        TextView data = (TextView) view.findViewById(R.id.data_dia);
-        TextView semana = (TextView) view.findViewById(R.id.nome_dia);
+        buscaViews(view);
 
-        Dia dia = dias.get(position);
+        colocaDia(position);
+
+        populaImageView(view);
+
+        colocaDiaDaSemana();
+
+        return view;
+    }
+
+    private void colocaDia(int position) {
+        dia = dias.get(position);
 
         data.setText(dia.getData());
+    }
 
-        populaImageView(view, dia);
-
+    private void colocaDiaDaSemana() {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         try {
             java.util.Date parse = dateFormat.parse(dia.getData());
@@ -77,23 +90,32 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
-        return view;
     }
 
-    private void populaImageView(View view, Dia dia) {
+    private void buscaViews(View view) {
+        data = (TextView) view.findViewById(R.id.data_dia);
+        semana = (TextView) view.findViewById(R.id.nome_dia);
+    }
+
+    private void populaImageView(View view) {
         Bitmap bm;
-        TarefaDao dao = new TarefaDao(activity);
-        boolean hasTarefa = dao.hasTarefa(dia.getData());
-        if (hasTarefa) {
+
+        if (hasTarefa()) {
             bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.positivo);
         } else {
             bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.negativo);
         }
-        ImageView sinal = (ImageView) view.findViewById(R.id.sinal);
+        sinal = (ImageView) view.findViewById(R.id.sinal);
 
         bm = Bitmap.createScaledBitmap(bm, 50, 50, true);
         sinal.setImageBitmap(bm);
+    }
+
+    private boolean hasTarefa() {
+        TarefaDao dao = new TarefaDao(activity);
+        boolean hasTarefa = dao.hasTarefa(dia.getData());
+        dao.close();
+        return hasTarefa;
     }
 
     private String geraNomeDia(int i) {
@@ -117,6 +139,4 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
                 return "";
         }
     }
-
-
 }

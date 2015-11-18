@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,7 +48,7 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
         criaTela();
 
-        dia = (Dia) getIntent().getSerializableExtra("dia");
+        pegaDia();
 
         pegaListaTarefas();
 
@@ -59,16 +58,20 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
     }
 
+    private void pegaDia() {
+        dia = (Dia) getIntent().getSerializableExtra("dia");
+    }
+
     private void fazUploadDasHoras() {
         sobeHoras.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verificaSeDesejaSubir();
+                verificaSeDesejaSubirHoras();
             }
         });
     }
 
-    private void verificaSeDesejaSubir() {
+    private void verificaSeDesejaSubirHoras() {
         new AlertDialog.Builder(this)
                 .setTitle("Atenção")
                 .setMessage("Deseja fazer upload das horas ?")
@@ -77,6 +80,7 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         alertaComJson();
                         //enviaJsonParaServidor(geraJson());
+
                     }
                 })
                 .setNegativeButton("Ainda não", new DialogInterface.OnClickListener() {
@@ -182,9 +186,7 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
     private String geraJson() {
 
-        String json = new TarefaConverter().toJson(tarefas);
-        Log.i("json", json);
-        return json;
+        return new TarefaConverter().toJson(tarefas);
     }
 
     private AlertDialog alertaComJson() {

@@ -34,12 +34,15 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
         alertDialog.dismiss();
-
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        geraAlerta();
+    }
+
+    private void geraAlerta() {
         alertDialog = ProgressDialog.show(activity, "Por favor aguarde", "Enviando dados para o Caelum Web", false, false);
     }
 }

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.CalendarView;
+import android.widget.Toast;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
@@ -70,8 +71,10 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
                 if (helper.validaData()) {
                     if (dia.getId() == null) {
                         dao.insere(dia);
+                        Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia salvo com sucesso", Toast.LENGTH_SHORT).show();
                     } else {
                         dao.altera(dia);
+                        Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia alterado com sucesso", Toast.LENGTH_SHORT).show();
                     }
 
                     dao.close();
