@@ -41,8 +41,7 @@ public class DiaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.dias_fragment, container, false);
 
-        listaDiasTrabalhados = (ListView) view.findViewById(R.id.lista_dias_trabalhados);
-        fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        buscaViews(view);
 
         vaiParaCadastroDeTarefaDoDiaSelecionado();
 
@@ -51,6 +50,11 @@ public class DiaFragment extends Fragment {
         registerForContextMenu(listaDiasTrabalhados);
 
         return view;
+    }
+
+    private void buscaViews(View view) {
+        listaDiasTrabalhados = (ListView) view.findViewById(R.id.lista_dias_trabalhados);
+        fab = (FloatingActionButton) view.findViewById(R.id.fab);
     }
 
     private void adicionaDia() {
@@ -109,8 +113,8 @@ public class DiaFragment extends Fragment {
 
                 carregaLista();
 
-                MainActivity activity = (MainActivity) getActivity();
-                activity.getTarefaFragment().carregaLista();
+                carregaListaTarefas();
+
                 return true;
             }
         });
@@ -168,6 +172,11 @@ public class DiaFragment extends Fragment {
                 return true;
             }
         });
+    }
+
+    private void carregaListaTarefas() {
+        MainActivity activity = (MainActivity) getActivity();
+        activity.getTarefaFragment().carregaLista();
     }
 
     @Override

@@ -23,6 +23,8 @@ public class ListaDiasActivity extends AppCompatActivity {
 
     private ListView listaDeDias;
     private ListaDiasActivity that = this;
+    private ArrayAdapter<Dia> adapter;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +66,7 @@ public class ListaDiasActivity extends AppCompatActivity {
         DiaDao dao = new DiaDao(this);
         List<Dia> dias = dao.pegaDias();
         dao.close();
-        ArrayAdapter<Dia> adapter = new ArrayAdapter<Dia>(this, android.R.layout.simple_list_item_1, dias);
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dias);
 
         listaDeDias.setAdapter(adapter);
     }
@@ -78,7 +80,7 @@ public class ListaDiasActivity extends AppCompatActivity {
     }
 
     private void colocaToolbarNaTela() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_cadastro_dias_cadastrados);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_cadastro_dias_cadastrados);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }

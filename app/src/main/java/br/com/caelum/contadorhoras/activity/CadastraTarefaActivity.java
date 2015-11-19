@@ -54,7 +54,7 @@ public class CadastraTarefaActivity extends AppCompatActivity {
             public boolean onMenuItemClick(MenuItem item) {
 
 
-                if (helper.validaDescricao()) {
+                if (helper.validaFormulario()) {
                     TarefaDao dao = new TarefaDao(CadastraTarefaActivity.this);
 
                     Tarefa tarefa = helper.pegaTarefaFormulario();

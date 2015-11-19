@@ -84,11 +84,16 @@ public class TarefaFragment extends Fragment {
 
                 carregaLista();
 
-                MainActivity activity = (MainActivity) getActivity();
-                activity.getDiaFragment().carregaLista();
+                carregaListaDias();
+
                 return true;
             }
         });
+    }
+
+    private void carregaListaDias() {
+        MainActivity activity = (MainActivity) getActivity();
+        activity.getDiaFragment().carregaLista();
     }
 
     @Override
