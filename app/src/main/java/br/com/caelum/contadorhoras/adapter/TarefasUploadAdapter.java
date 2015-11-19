@@ -47,16 +47,20 @@ public class TarefasUploadAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view;
+        View view = criaView(convertView, parent);
 
+        populaView(position, view);
+
+        return view;
+    }
+
+    private View criaView(View convertView, ViewGroup parent) {
+        View view;
         if (convertView == null) {
             view = activity.getLayoutInflater().inflate(R.layout.tarefa_upload_item, parent, false);
         } else {
             view = convertView;
         }
-
-        populaView(position, view);
-
         return view;
     }
 

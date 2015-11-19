@@ -43,8 +43,8 @@
                     <TimePicker
                         android:id="@+id/cadastro_tempo_inicial"
                         android:layout_width="match_parent"
-                        android:timePickerMode="clock"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:timePickerMode="clock" />
 
 
                 </LinearLayout>
@@ -66,8 +66,8 @@
                     <TimePicker
                         android:id="@+id/cadastro_tempo_final"
                         android:layout_width="match_parent"
-                        android:timePickerMode="clock"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="wrap_content"
+                        android:timePickerMode="clock" />
                 </LinearLayout>
             </LinearLayout>
 
