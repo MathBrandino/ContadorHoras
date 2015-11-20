@@ -33,7 +33,17 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
 
         verificaIntentRecebida();
 
+        selecionaDataAtual();
+
         pegaDataCalendario();
+    }
+
+    private void selecionaDataAtual() {
+        long date = helper.getCalendario().getDate();
+        Calendar data = Calendar.getInstance();
+        data.setTimeInMillis(date);
+        String dataFormatada = new SimpleDateFormat("dd/MM/yyyy").format(data.getTime());
+        helper.getData().setText(dataFormatada);
     }
 
     private void verificaIntentRecebida() {
