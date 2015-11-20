@@ -17,6 +17,7 @@ import java.util.List;
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.modelo.Dia;
+import br.com.caelum.contadorhoras.modelo.Tarefa;
 
 
 /**
@@ -29,6 +30,7 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
     private TextView data;
     private Dia dia;
     private ImageView sinal;
+    private TextView quantidadeTarefas;
 
     public DiasTrabalhadosAdapter(FragmentActivity activity, List<Dia> dias) {
         this.activity = activity;
@@ -66,11 +68,21 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
 
         colocaDia(position);
 
-        populaImageView(view);
+        populaImageView();
 
         colocaDiaDaSemana();
 
+        colocaQuantidadeDeTarefas();
+
         return view;
+    }
+
+    private void colocaQuantidadeDeTarefas() {
+        TarefaDao dao = new TarefaDao(activity);
+        List<Tarefa> tarefas = dao.pegaTarefasDoDia(dia);
+        dao.close();
+
+        quantidadeTarefas.setText(String.valueOf(tarefas.size()));
     }
 
     private void colocaDia(int position) {
@@ -95,9 +107,11 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
     private void buscaViews(View view) {
         data = (TextView) view.findViewById(R.id.data_dia);
         semana = (TextView) view.findViewById(R.id.nome_dia);
+        sinal = (ImageView) view.findViewById(R.id.sinal);
+        quantidadeTarefas = (TextView) view.findViewById(R.id.tarefas_dia);
     }
 
-    private void populaImageView(View view) {
+    private void populaImageView() {
         Bitmap bm;
 
         if (hasTarefa()) {
@@ -105,7 +119,7 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
         } else {
             bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.negativo);
         }
-        sinal = (ImageView) view.findViewById(R.id.sinal);
+
 
         bm = Bitmap.createScaledBitmap(bm, 50, 50, true);
         sinal.setImageBitmap(bm);

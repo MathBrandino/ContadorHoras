@@ -27,7 +27,6 @@ public class TarefaConverter {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         return writer.toString();
     }
 }

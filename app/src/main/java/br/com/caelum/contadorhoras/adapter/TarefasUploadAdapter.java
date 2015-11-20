@@ -1,6 +1,5 @@
 package br.com.caelum.contadorhoras.adapter;
 
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
