@@ -80,7 +80,7 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
                 DiaDao dao = new DiaDao(CadastroDiaTrabalhadoActivity.this);
                 if (helper.validaData()) {
                     if (dia.getId() == null) {
-                        if(dao.verificaDiaJaExiste(dia.getData())) {
+                        if (dao.verificaDiaJaExiste(dia.getData())) {
                             fazInsercao(dia, dao);
                         } else {
                             Snackbar.make(helper.getData(), "Você já possui um registro com essa data", Snackbar.LENGTH_SHORT).show();

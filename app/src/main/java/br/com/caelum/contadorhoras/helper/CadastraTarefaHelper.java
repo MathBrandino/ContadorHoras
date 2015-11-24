@@ -103,14 +103,14 @@ public class CadastraTarefaHelper {
         return true;
     }
 
-    private boolean validaQuantidadeHoras(){
+    private boolean validaQuantidadeHoras() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (tempoFinal.getMinute() == tempoInicial.getMinute() && tempoFinal.getHour() == tempoInicial.getHour()){
+            if (tempoFinal.getMinute() == tempoInicial.getMinute() && tempoFinal.getHour() == tempoInicial.getHour()) {
                 return false;
             }
         } else {
-            if ( tempoFinal.getCurrentMinute() == tempoInicial.getCurrentMinute() && tempoFinal.getCurrentHour() == tempoInicial.getCurrentHour()){
+            if (tempoFinal.getCurrentMinute() == tempoInicial.getCurrentMinute() && tempoFinal.getCurrentHour() == tempoInicial.getCurrentHour()) {
                 return false;
             }
         }
@@ -118,7 +118,7 @@ public class CadastraTarefaHelper {
         return true;
     }
 
-    private boolean validaTempo(){
+    private boolean validaTempo() {
         if (validaHoras() && validaMinutos() && validaQuantidadeHoras()) {
             return true;
         }
@@ -126,8 +126,8 @@ public class CadastraTarefaHelper {
         return false;
     }
 
-    public boolean validaFormulario(){
-        if (validaDescricao() && validaTempo()){
+    public boolean validaFormulario() {
+        if (validaDescricao() && validaTempo()) {
             return true;
         }
         return false;

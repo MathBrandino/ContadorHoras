@@ -92,7 +92,7 @@ public class DiaDao implements Closeable {
                 helperDao.getReadableDatabase().rawQuery("Select * from " + TABELA + " where " + DATA + " = ?",
                         new String[]{data});
 
-        if(cursor.moveToNext()){
+        if (cursor.moveToNext()) {
             return false;
         }
 

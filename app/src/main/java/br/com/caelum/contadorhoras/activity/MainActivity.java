@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.adicionar:
                 if (viewPager.getCurrentItem() == 1) {
                     DiaDao dao = new DiaDao(this);
-                    if(dao.pegaDias().size() >= 1) {
+                    if (dao.pegaDias().size() >= 1) {
                         Intent intent = new Intent(this, ListaDiasActivity.class);
                         startActivity(intent);
                     } else {
