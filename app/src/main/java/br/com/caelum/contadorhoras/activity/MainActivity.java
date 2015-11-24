@@ -3,6 +3,7 @@ package br.com.caelum.contadorhoras.activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -161,50 +162,86 @@ public class MainActivity extends AppCompatActivity {
                     Snackbar.make(viewPager, "Você ainda não possui nenhum dia", Snackbar.LENGTH_SHORT).show();
                 }
 
+                dao.close();
 
                 return true;
 
             case R.id.subir:
 
-                View view = View.inflate(this, R.layout.dias_subir_item, null );
-                ListView list = (ListView) view.findViewById(R.id.lista_dias_cadastrados);
-                list.setAdapter(new ArrayAdapter<Dia>(this, android.R.layout.simple_list_item_1, dao.pegaDias()));
+                List<Dia> dias = dao.pegaDias();
                 dao.close();
 
+                if (dias.size() > 0) {
 
-                final AlertDialog alertDialog = new AlertDialog.Builder(this)
-                        .setTitle("Escolha um dia").setView(view).create();
-                alertDialog.show();
+                    View view = View.inflate(this, R.layout.dias_subir_item, null);
 
+                    ListView list = criaListView(dias, view);
 
-                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        final Dia dia = (Dia) parent.getItemAtPosition(position);
+                    final AlertDialog alertDialog = criaAlertComDias(view);
 
-                        TarefaDao tarefaDao = new TarefaDao(MainActivity.this);
+                    eventoClickDaLista(list, alertDialog);
 
-                        if (tarefaDao.pegaTarefasDoDia(dia).size() >= 1) {
-                            vaiParaListaDeTarefasUpload(dia);
-                            alertDialog.dismiss();
-
-                        } else {
-                            alertDialog.dismiss();
-                            Snackbar.make(getDiaFragment().getFab(), "Esse dia ainda não tem nenhuma tarefa", Snackbar.LENGTH_SHORT)
-                                    .setAction("Adicionar", new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-                                            vaiParaCadastroDeTarefas(dia);
-                                        }
-                                    })
-                                    .show();
-                        }
-
-                    }
-                });
+                } else {
+                    Snackbar.make(getDiaFragment().getFab(), "Você não tem nenhum dia ", Snackbar.LENGTH_SHORT)
+                            .setAction("Adicionar", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    vaiParaCadastroDeDia();
+                                }
+                            })
+                            .show();
+                }
                 return true;
         }
         return true;
+    }
+
+    private void vaiParaCadastroDeDia() {
+        Intent intent = new Intent(this, CadastroDiaTrabalhadoActivity.class);
+        startActivity(intent);
+    }
+
+    @NonNull
+    private ListView criaListView(List<Dia> dias, View view) {
+        ListView list = (ListView) view.findViewById(R.id.lista_dias_cadastrados);
+        list.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dias));
+        return list;
+    }
+
+    @NonNull
+    private AlertDialog criaAlertComDias(View view) {
+        final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                .setTitle("Escolha um dia").setView(view).create();
+        alertDialog.show();
+        return alertDialog;
+    }
+
+    private void eventoClickDaLista(ListView list, final AlertDialog alertDialog) {
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final Dia dia = (Dia) parent.getItemAtPosition(position);
+
+                TarefaDao tarefaDao = new TarefaDao(MainActivity.this);
+
+                if (tarefaDao.pegaTarefasDoDia(dia).size() >= 1) {
+                    vaiParaListaDeTarefasUpload(dia);
+                    alertDialog.dismiss();
+
+                } else {
+                    alertDialog.dismiss();
+                    Snackbar.make(getDiaFragment().getFab(), "Esse dia ainda não tem nenhuma tarefa", Snackbar.LENGTH_SHORT)
+                            .setAction("Adicionar", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    vaiParaCadastroDeTarefas(dia);
+                                }
+                            })
+                            .show();
+                }
+
+            }
+        });
     }
 
     private void vaiParaCadastroDeTarefas(Dia dia) {
