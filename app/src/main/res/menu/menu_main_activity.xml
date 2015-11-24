@@ -8,4 +8,9 @@
         android:title="Cadastrar tarefa"
         app:showAsAction="always" />
 
+    <item
+        android:id="@+id/subir"
+        android:title="Subir horas"
+        app:showAsAction="always"
+        />
 </menu>

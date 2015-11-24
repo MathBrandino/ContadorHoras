@@ -3,9 +3,11 @@ package br.com.caelum.contadorhoras.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -23,8 +25,8 @@ public class ListaDiasActivity extends AppCompatActivity {
 
     private ListView listaDeDias;
     private ListaDiasActivity that = this;
-    private ArrayAdapter<Dia> adapter;
     private Toolbar toolbar;
+    private ArrayAdapter<Dia> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class ListaDiasActivity extends AppCompatActivity {
         DiaDao dao = new DiaDao(this);
         List<Dia> dias = dao.pegaDias();
         dao.close();
+
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, dias);
 
         listaDeDias.setAdapter(adapter);

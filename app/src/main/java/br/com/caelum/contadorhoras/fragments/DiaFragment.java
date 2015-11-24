@@ -36,6 +36,10 @@ public class DiaFragment extends Fragment {
     private DiasTrabalhadosAdapter adapter;
     private FloatingActionButton fab;
 
+    public FloatingActionButton getFab() {
+        return fab;
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

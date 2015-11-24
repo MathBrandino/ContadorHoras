@@ -1,5 +1,6 @@
 package br.com.caelum.contadorhoras.activity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,8 +22,10 @@ import java.util.List;
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.adapter.ContadorPagerAdapter;
 import br.com.caelum.contadorhoras.dao.DiaDao;
+import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.fragments.DiaFragment;
 import br.com.caelum.contadorhoras.fragments.TarefaFragment;
+import br.com.caelum.contadorhoras.modelo.Dia;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +46,6 @@ public class MainActivity extends AppCompatActivity {
         preparaVisualicaoDaTela();
 
         populaListaFragment();
-
 
     }
 
@@ -117,7 +123,15 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
+        criaMenu(menu);
+
+        return true;
+    }
+
+    private void criaMenu(Menu menu) {
+
         MenuItem add = menu.findItem(R.id.adicionar);
+        MenuItem subirHoras = menu.findItem(R.id.subir);
         if (viewPager.getCurrentItem() == 1) {
             add.setVisible(true);
             add.setTitle("Adiciona Tarefa");
@@ -125,25 +139,85 @@ public class MainActivity extends AppCompatActivity {
             add.setVisible(false);
         }
 
-        return true;
+        if (viewPager.getCurrentItem() == 0) {
+            subirHoras.setVisible(true);
+
+        } else {
+            subirHoras.setVisible(false);
+        }
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        DiaDao dao = new DiaDao(this);
         switch (item.getItemId()) {
             case R.id.adicionar:
-                if (viewPager.getCurrentItem() == 1) {
-                    DiaDao dao = new DiaDao(this);
-                    if (dao.pegaDias().size() >= 1) {
-                        Intent intent = new Intent(this, ListaDiasActivity.class);
-                        startActivity(intent);
-                    } else {
-                        Snackbar.make(viewPager, "Você ainda não possui nenhum dia", Snackbar.LENGTH_SHORT).show();
-                    }
 
+
+                if (dao.pegaDias().size() >= 1) {
+                    Intent intent = new Intent(this, ListaDiasActivity.class);
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(viewPager, "Você ainda não possui nenhum dia", Snackbar.LENGTH_SHORT).show();
                 }
+
+
+                return true;
+
+            case R.id.subir:
+
+                View view = View.inflate(this, R.layout.dias_subir_item, null );
+                ListView list = (ListView) view.findViewById(R.id.lista_dias_cadastrados);
+                list.setAdapter(new ArrayAdapter<Dia>(this, android.R.layout.simple_list_item_1, dao.pegaDias()));
+                dao.close();
+
+
+                final AlertDialog alertDialog = new AlertDialog.Builder(this)
+                        .setTitle("Escolha um dia").setView(view).create();
+                alertDialog.show();
+
+
+                list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        final Dia dia = (Dia) parent.getItemAtPosition(position);
+
+                        TarefaDao tarefaDao = new TarefaDao(MainActivity.this);
+
+                        if (tarefaDao.pegaTarefasDoDia(dia).size() >= 1) {
+                            vaiParaListaDeTarefasUpload(dia);
+                            alertDialog.dismiss();
+
+                        } else {
+                            alertDialog.dismiss();
+                            Snackbar.make(getDiaFragment().getFab(), "Esse dia ainda não tem nenhuma tarefa", Snackbar.LENGTH_SHORT)
+                                    .setAction("Adicionar", new View.OnClickListener() {
+                                        @Override
+                                        public void onClick(View v) {
+                                            vaiParaCadastroDeTarefas(dia);
+                                        }
+                                    })
+                                    .show();
+                        }
+
+                    }
+                });
+                return true;
         }
         return true;
+    }
+
+    private void vaiParaCadastroDeTarefas(Dia dia) {
+
+        Intent intent = new Intent(this, CadastraTarefaActivity.class);
+        intent.putExtra("dia", dia);
+        startActivity(intent);
+
+    }
+
+    private void vaiParaListaDeTarefasUpload(Dia dia) {
+        Intent intent = new Intent(this, ListaTarefasUploadActivity.class);
+        intent.putExtra("dia", dia);
+        startActivity(intent);
     }
 }
