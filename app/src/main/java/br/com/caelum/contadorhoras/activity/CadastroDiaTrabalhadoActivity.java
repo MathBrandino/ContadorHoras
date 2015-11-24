@@ -80,16 +80,17 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
                 DiaDao dao = new DiaDao(CadastroDiaTrabalhadoActivity.this);
                 if (helper.validaData()) {
                     if (dia.getId() == null) {
-                        dao.insere(dia);
-                        Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia salvo com sucesso", Toast.LENGTH_SHORT).show();
+                        if(dao.verificaDiaJaExiste(dia.getData())) {
+                            fazInsercao(dia, dao);
+                        } else {
+                            Snackbar.make(helper.getData(), "Você já possui um registro com essa data", Snackbar.LENGTH_SHORT).show();
+                        }
                     } else {
-                        dao.altera(dia);
-                        Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia alterado com sucesso", Toast.LENGTH_SHORT).show();
+                        fazAlteracao(dia, dao);
                     }
 
                     dao.close();
 
-                    finish();
                 } else {
                     Snackbar.make(helper.getData(), "Selecione uma data, por gentileza", Snackbar.LENGTH_LONG).show();
                 }
@@ -99,6 +100,18 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
         });
 
         return true;
+    }
+
+    private void fazInsercao(Dia dia, DiaDao dao) {
+        dao.insere(dia);
+        Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia salvo com sucesso", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void fazAlteracao(Dia dia, DiaDao dao) {
+        dao.altera(dia);
+        Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia alterado com sucesso", Toast.LENGTH_SHORT).show();
+        finish();
     }
 
     @Override

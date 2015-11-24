@@ -2,6 +2,7 @@ package br.com.caelum.contadorhoras.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.adapter.ContadorPagerAdapter;
+import br.com.caelum.contadorhoras.dao.DiaDao;
 import br.com.caelum.contadorhoras.fragments.DiaFragment;
 import br.com.caelum.contadorhoras.fragments.TarefaFragment;
 
@@ -132,8 +134,14 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.adicionar:
                 if (viewPager.getCurrentItem() == 1) {
-                    Intent intent = new Intent(this, ListaDiasActivity.class);
-                    startActivity(intent);
+                    DiaDao dao = new DiaDao(this);
+                    if(dao.pegaDias().size() >= 1) {
+                        Intent intent = new Intent(this, ListaDiasActivity.class);
+                        startActivity(intent);
+                    } else {
+                        Snackbar.make(viewPager, "Você ainda não possui nenhum dia", Snackbar.LENGTH_SHORT).show();
+                    }
+
                 }
         }
         return true;

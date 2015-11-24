@@ -85,4 +85,17 @@ public class DiaDao implements Closeable {
 
         return data;
     }
+
+    public boolean verificaDiaJaExiste(String data) {
+
+        Cursor cursor =
+                helperDao.getReadableDatabase().rawQuery("Select * from " + TABELA + " where " + DATA + " = ?",
+                        new String[]{data});
+
+        if(cursor.moveToNext()){
+            return false;
+        }
+
+        return true;
+    }
 }
