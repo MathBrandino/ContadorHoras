@@ -11,19 +11,20 @@
         android:id="@+id/toolbar_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4ba4ed"
+        android:background="#2196F3"
         app:titleTextColor="#FFFFFF" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#4ba4ed"
+        android:background="#2196F3"
         android:elevation="5dp"
         android:visibility="visible"
-        app:tabIndicatorColor="#FFFFFF"
-        app:tabSelectedTextColor="#000000"
-        app:tabTextColor="#FFFFFF" />
+        app:tabIndicatorColor="#FFF"
+        app:tabIndicatorHeight="5dp"
+        app:tabSelectedTextColor="#FFF"
+        app:tabTextColor="#000" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager_main"

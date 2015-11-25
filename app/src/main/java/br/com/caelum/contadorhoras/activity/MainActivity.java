@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         preparaTabLayout();
 
-
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -153,7 +152,6 @@ public class MainActivity extends AppCompatActivity {
         DiaDao dao = new DiaDao(this);
         switch (item.getItemId()) {
             case R.id.adicionar:
-
 
                 if (dao.pegaDias().size() >= 1) {
                     Intent intent = new Intent(this, ListaDiasActivity.class);
@@ -236,10 +234,8 @@ public class MainActivity extends AppCompatActivity {
                                 public void onClick(View v) {
                                     vaiParaCadastroDeTarefas(dia);
                                 }
-                            })
-                            .show();
+                            }).show();
                 }
-
             }
         });
     }
