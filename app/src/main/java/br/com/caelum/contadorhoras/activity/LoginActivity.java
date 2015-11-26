@@ -7,20 +7,21 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.view.ViewParent;
 import android.widget.EditText;
 
 import br.com.caelum.contadorhoras.R;
+import br.com.caelum.contadorhoras.modelo.Login;
 
 /**
  * Created by matheus on 26/11/15.
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText login;
+    private EditText usuario;
     private EditText senha;
 
     private FloatingActionButton fab;
+    private Login login;
 
 
     @Override
@@ -35,14 +36,25 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(validaLogin()){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    criaLogin();
+
+                    
+                    vaiParaMain();
                 }
 
             }
         });
 
+    }
+
+    private void vaiParaMain() {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    private void criaLogin() {
+        login = new Login(usuario.getText().toString(), senha.getText().toString());
     }
 
     private boolean validaLogin() {
@@ -65,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validaUsuario() {
-        if (login.getText().toString().trim().isEmpty() || !login.getText().toString().trim().contains(".")){
-            TextInputLayout layout = (TextInputLayout) login.getParent();
+        if (usuario.getText().toString().trim().isEmpty() || !usuario.getText().toString().trim().contains(".")){
+            TextInputLayout layout = (TextInputLayout) usuario.getParent();
             layout.setError("Usuario inválido");
 
             return false;
@@ -77,7 +89,7 @@ public class LoginActivity extends AppCompatActivity {
     private void criaComponentes() {
         criaToolbar();
 
-        login = (EditText) findViewById(R.id.login_usuario);
+        usuario = (EditText) findViewById(R.id.login_usuario);
         senha = (EditText) findViewById(R.id.login_senha);
 
         fab = (FloatingActionButton) findViewById(R.id.fab_login);

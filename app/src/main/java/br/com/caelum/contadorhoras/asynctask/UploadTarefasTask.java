@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
-import br.com.caelum.contadorhoras.servidor.WebClient;
+import br.com.caelum.contadorhoras.servidor.EnviadorDeJson;
 
 /**
  * Created by matheus on 17/11/15.
@@ -23,9 +23,9 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
 
-        WebClient webClient = new WebClient();
+        EnviadorDeJson enviadorDeJson = new EnviadorDeJson();
 
-        String post = webClient.post(json);
+        String post = enviadorDeJson.post(json);
 
         return post;
     }
