@@ -72,6 +72,13 @@ public class TarefaDao implements Closeable {
         helperDao.getWritableDatabase().update(TABELA, dados, " id  = ? ", new String[]{String.valueOf(tarefa.getId())});
     }
 
+    public void alteraData(String dataAntiga, String dataNova) {
+        ContentValues values = new ContentValues();
+        values.put(DATA_DIA, dataNova);
+
+        helperDao.getWritableDatabase().update(TABELA, values, DATA_DIA + " = ?", new String[]{dataAntiga});
+    }
+
     public void deleta(Tarefa tarefa) {
 
         helperDao.getWritableDatabase().delete(TABELA, "id = ? ", new String[]{String.valueOf(tarefa.getId())});

@@ -14,6 +14,7 @@ import java.util.Calendar;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.dao.DiaDao;
+import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.helper.CadastroDiaHelper;
 import br.com.caelum.contadorhoras.modelo.Dia;
 
@@ -23,6 +24,7 @@ import br.com.caelum.contadorhoras.modelo.Dia;
 public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
 
     private CadastroDiaHelper helper;
+    private String dataAntiga;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,7 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
         if (getIntent().hasExtra("dia")) {
             Dia dia = (Dia) getIntent().getSerializableExtra("dia");
             helper.colocaDiaNoFormulario(dia);
+            dataAntiga = dia.getData();
         }
     }
 
@@ -110,6 +113,9 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
 
     private void fazAlteracao(Dia dia, DiaDao dao) {
         dao.altera(dia);
+        TarefaDao tarefaDao = new TarefaDao(this);
+        tarefaDao.alteraData(dataAntiga, dia.getData());
+        tarefaDao.close();
         Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia alterado com sucesso", Toast.LENGTH_SHORT).show();
         finish();
     }
