@@ -42,12 +42,18 @@ public class DiaDao implements Closeable {
 
     }
 
-    public void altera(Dia dia) {
+    public void altera(Dia dia, String dataAntiga) {
 
         ContentValues values = new ContentValues();
         values.put(DATA, dia.getData());
 
         helperDao.getWritableDatabase().update(TABELA, values, ID + " = ? ", new String[]{String.valueOf(dia.getId())});
+
+        close();
+
+        TarefaDao tarefaDao = new TarefaDao(ctx);
+        tarefaDao.alteraData(dataAntiga, dia.getData());
+        tarefaDao.close();
 
     }
 

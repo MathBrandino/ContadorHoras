@@ -1,9 +1,11 @@
 package br.com.caelum.contadorhoras.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -78,13 +80,22 @@ public class TarefaFragment extends Fragment {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
 
-                TarefaDao dao = new TarefaDao(getContext());
-                dao.deleta(tarefa);
-                dao.close();
+                new AlertDialog.Builder(getContext()).setMessage("Deseja excluir tarefa ?").setTitle("Atenção")
+                        .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
 
-                carregaLista();
 
-                carregaListaDias();
+                                TarefaDao dao = new TarefaDao(getContext());
+                                dao.deleta(tarefa);
+                                dao.close();
+
+                                carregaLista();
+
+                                carregaListaDias();
+
+                            }
+                        }).setNegativeButton("Não", null).show();
 
                 return true;
             }

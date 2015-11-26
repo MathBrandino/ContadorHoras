@@ -9,9 +9,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar_cadastro_tarefa"
         android:layout_width="match_parent"
-        app:titleTextColor="#FFFFFF"
         android:layout_height="wrap_content"
-        android:background="#2196F3" />
+        android:background="#2196F3"
+        app:titleTextColor="#FFFFFF" />
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"

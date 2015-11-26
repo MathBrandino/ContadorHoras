@@ -1,12 +1,12 @@
 package br.com.caelum.contadorhoras.fragments;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -111,13 +111,22 @@ public class DiaFragment extends Fragment {
         deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                DiaDao dao = new DiaDao(getActivity());
-                dao.deleta(dia);
-                dao.close();
 
-                carregaLista();
+                new AlertDialog.Builder(getContext()).setTitle("Atenção").setMessage("Deseja deletar dia ?").setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-                carregaListaTarefas();
+
+                        DiaDao dao = new DiaDao(getActivity());
+                        dao.deleta(dia);
+                        dao.close();
+
+                        carregaLista();
+
+                        carregaListaTarefas();
+
+                    }
+                }).setNegativeButton("Não", null).show();
 
                 return true;
             }
