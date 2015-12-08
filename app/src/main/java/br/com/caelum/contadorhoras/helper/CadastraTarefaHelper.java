@@ -4,11 +4,16 @@ import android.os.Build;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.Toolbar;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.activity.CadastraTarefaActivity;
+import br.com.caelum.contadorhoras.dao.CategoriaDao;
+import br.com.caelum.contadorhoras.modelo.Categoria;
 import br.com.caelum.contadorhoras.modelo.Tarefa;
 
 /**
@@ -24,9 +29,12 @@ public class CadastraTarefaHelper {
     private TextInputLayout inputLayout;
     private EditText descricao;
 
+    private Spinner atividades;
     private Tarefa tarefa;
+    private CadastraTarefaActivity activity;
 
     public CadastraTarefaHelper(CadastraTarefaActivity activity) {
+        this.activity = activity;
 
         toolbar = (Toolbar) activity.findViewById(R.id.toolbar_cadastro_tarefa);
         tempoInicial = (TimePicker) activity.findViewById(R.id.cadastro_tempo_inicial);
@@ -34,6 +42,8 @@ public class CadastraTarefaHelper {
         inputLayout = (TextInputLayout) activity.findViewById(R.id.cadastro_tarefa_text_layout);
         descricao = (EditText) activity.findViewById(R.id.cadastro_descricao_tarefa);
 
+        atividades = (Spinner) activity.findViewById(R.id.cadastro_tarefa_tipo);
+        populaAtividades();
 
         tempoInicial.setIs24HourView(true);
         tempoFinal.setIs24HourView(true);
@@ -42,6 +52,15 @@ public class CadastraTarefaHelper {
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tarefa = new Tarefa();
+    }
+
+    private void populaAtividades() {
+
+        CategoriaDao dao = new CategoriaDao(activity);
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter(activity,android.R.layout.simple_list_item_1, dao.getCategorias());
+        dao.close();
+        atividades.setAdapter(adapter);
+
     }
 
     public Tarefa pegaTarefaFormulario() {
@@ -58,6 +77,8 @@ public class CadastraTarefaHelper {
             tarefa.setHoraFinal(tempoFinal.getCurrentHour());
             tarefa.setMinutoFinal(tempoFinal.getCurrentMinute());
         }
+        tarefa.setIdCategoria(Long.valueOf(atividades.getSelectedItemPosition()));
+
 
         return tarefa;
 
@@ -147,6 +168,9 @@ public class CadastraTarefaHelper {
             tempoInicial.setCurrentHour(tarefa.getHoraInicial());
             tempoInicial.setCurrentMinute(tarefa.getMinutoInicial());
         }
+
+        atividades.setSelection(tarefa.getIdCategoria().intValue());
+
         this.tarefa = tarefa;
 
     }

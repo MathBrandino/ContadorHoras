@@ -86,6 +86,11 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dropdown"
+                android:id="@+id/cadastro_tarefa_tipo"/>
         </LinearLayout>
 
     </ScrollView>

@@ -24,16 +24,31 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
 
         String query = "Create table Tarefa ( " +
                 "id integer primary key , " +
+                "idCategoria integer not null," +
                 "dataDia text not null, " +
                 "desc text not null, " +
                 "horaInicial integer not null, " +
                 "minutoInicial integer not null, " +
                 "horaFinal integer not null , " +
                 "minutoFinal integer not null ," +
-                "FOREIGN KEY(dataDia) REFERENCES Dia (data) ) ;";
+                "FOREIGN KEY(dataDia) REFERENCES Dia (data) ," +
+                "FOREIGN KEY(idCategoria) REFERENCES Categoria (id) ) ;";
+
+        String ddl = "Create table Categoria (" +
+                "id integer primary key , " +
+                "tipo text not null ) ;";
+
+
+        String insert = "insert into Categoria (tipo) values ('Aula') ;" ;
+        String insert1 = "insert into Categoria (tipo) values ('Video') ; ";
+        String insert2 = "insert into Categoria (tipo) values ('Livro') ;";
 
 
         db.execSQL(sql);
+        db.execSQL(ddl);
+        db.execSQL(insert);
+        db.execSQL(insert1);
+        db.execSQL(insert2);
         db.execSQL(query);
     }
 

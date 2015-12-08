@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Tarefa implements Serializable {
 
     private Long id;
+    private Long idCategoria;
     private String dataDia;
     private String desc;
     private int horaInicial;
@@ -70,5 +71,13 @@ public class Tarefa implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(Long idCategoria) {
+        this.idCategoria = idCategoria;
     }
 }
