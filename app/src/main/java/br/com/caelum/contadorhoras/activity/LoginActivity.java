@@ -3,6 +3,7 @@ package br.com.caelum.contadorhoras.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.EditText;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.asynctask.ValidadorDeLoginTask;
+import br.com.caelum.contadorhoras.converter.LoginConverter;
 import br.com.caelum.contadorhoras.modelo.Login;
 
 /**
@@ -38,9 +40,14 @@ public class LoginActivity extends AppCompatActivity {
                 if (validaLogin()) {
                     criaLogin();
 
+
+                    LoginConverter loginConverter = new LoginConverter();
+                    String s = loginConverter.toJson(login);
+
+                    //new AlertDialog.Builder(LoginActivity.this).setMessage(s).show();
+
                     ValidadorDeLoginTask task = new ValidadorDeLoginTask(login, LoginActivity.this);
                     task.execute();
-
                 }
 
             }

@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
     private void preparaComponentes() {
         tabLayout = (TabLayout) findViewById(R.id.tab_layout_main);
         viewPager = (ViewPager) findViewById(R.id.view_pager_main);

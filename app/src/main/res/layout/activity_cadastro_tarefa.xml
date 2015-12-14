@@ -87,10 +87,10 @@
             </android.support.design.widget.TextInputLayout>
 
             <Spinner
+                android:id="@+id/cadastro_tarefa_tipo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:spinnerMode="dropdown"
-                android:id="@+id/cadastro_tarefa_tipo"/>
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
     </ScrollView>

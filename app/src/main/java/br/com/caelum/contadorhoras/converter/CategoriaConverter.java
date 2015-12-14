@@ -17,9 +17,9 @@ import br.com.caelum.contadorhoras.modelo.Categoria;
 public class CategoriaConverter {
 
 
-    private static final String CATEGORIA = "Categoria";
+    private static final String PROJETOS = "Projetos";
     private static final String ID = "id";
-    private static final String TIPO = "tipo";
+    private static final String TIPO = "nome";
 
     public List<Categoria> fromJson(String json) {
 
@@ -27,7 +27,7 @@ public class CategoriaConverter {
 
         try {
             JSONObject jsonComTodasAsCategorias = new JSONObject(json);
-            JSONArray jsonArray = jsonComTodasAsCategorias.getJSONArray(CATEGORIA);
+            JSONArray jsonArray = jsonComTodasAsCategorias.getJSONArray(PROJETOS);
 
             for (int i = 0; i < jsonArray.length(); i++) {
 

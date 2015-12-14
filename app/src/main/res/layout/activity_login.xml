@@ -27,9 +27,8 @@
                 android:id="@+id/toolbar_login"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:titleTextColor="#FFF"
                 app:layout_collapseMode="pin"
-                />
+                app:titleTextColor="#FFF" />
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -37,25 +36,25 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|right"
         android:layout_marginBottom="15dp"
         android:layout_marginEnd="15dp"
-        android:id="@+id/fab_login"
+        android:layout_marginRight="15dp"
         android:src="@android:drawable/ic_menu_send"
         app:backgroundTint="#CCC"
-        android:layout_marginRight="15dp"
         app:elevation="6dp"
         app:fabSize="normal" />
 
 
     <LinearLayout
-        android:paddingTop="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
 
         <android.support.design.widget.TextInputLayout
@@ -78,10 +77,10 @@
 
             <EditText
                 android:id="@+id/login_senha"
-                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Senha" />
+                android:hint="Senha"
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 

@@ -15,9 +15,9 @@ import br.com.caelum.contadorhoras.modelo.Categoria;
  */
 public class CategoriaDao implements Closeable {
 
-    private static final String TABELA = "Categoria";
     public static final String ID = "id";
     public static final String TIPO = "tipo";
+    private static final String TABELA = "Categoria";
     private final DatabaseHelperDao dao;
     private Context context;
 

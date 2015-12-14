@@ -41,14 +41,15 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
 
-        LoginConverter loginConverter = new LoginConverter();
+        /*LoginConverter loginConverter = new LoginConverter();
         String json = loginConverter.toJson(login);
-
+*/
         ReceptorDeToken receptorDeToken = new ReceptorDeToken();
-        String post = receptorDeToken.post(json);
+   //     String post = receptorDeToken.post(json);
 
+        String lista = receptorDeToken.get(login.getLogin(), login.getSenha());
 
-        return post;
+        return lista;
     }
 
     @Override

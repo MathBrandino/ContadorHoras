@@ -30,11 +30,12 @@ import br.com.caelum.contadorhoras.modelo.Dia;
 /**
  * Created by matheus on 10/11/15.
  */
-public class DiaFragment extends Fragment {
+public class DiaFragment extends Fragment  {
 
     private ListView listaDiasTrabalhados;
     private DiasTrabalhadosAdapter adapter;
     private FloatingActionButton fab;
+    private View view;
 
     public FloatingActionButton getFab() {
         return fab;
@@ -43,7 +44,7 @@ public class DiaFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.dias_fragment, container, false);
+        view = inflater.inflate(R.layout.dias_fragment, container, false);
 
         buscaViews(view);
 
@@ -98,7 +99,7 @@ public class DiaFragment extends Fragment {
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
 
-        final AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
         final Dia dia = (Dia) listaDiasTrabalhados.getItemAtPosition(info.position);
 
         getActivity().getMenuInflater().inflate(R.menu.dia_context_menu, menu);

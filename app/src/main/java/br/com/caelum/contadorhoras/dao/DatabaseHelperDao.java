@@ -9,8 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
  */
 class DatabaseHelperDao extends SQLiteOpenHelper {
 
-    private static final int VERSAO = 1;
-    private static final String DATABASE = "ContadorCaelum";
     public static final String ID_DIA = "id";
     public static final String DATA = "data";
     public static final String TABELA_DIA = "Dia";
@@ -26,6 +24,8 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
     public static final String TABELA_CATEGORIA = "Categoria";
     public static final String ID_CATEGORIA = "id";
     public static final String TIPO = "tipo";
+    private static final int VERSAO = 1;
+    private static final String DATABASE = "ContadorCaelum";
 
     public DatabaseHelperDao(Context ctx) {
         super(ctx, DATABASE, null, VERSAO);

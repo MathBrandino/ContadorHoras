@@ -6,10 +6,10 @@ package br.com.caelum.contadorhoras.modelo;
 public class Login {
 
     private String senha;
-    private String usuario;
+    private String login;
 
-    public Login(String usuario, String senha) {
-        this.usuario = usuario;
+    public Login(String login, String senha) {
+        this.login = login;
         this.senha = senha;
     }
 
@@ -21,11 +21,11 @@ public class Login {
         this.senha = senha;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public String getLogin() {
+        return login;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
+    public void setLogin(String login) {
+        this.login = login;
     }
 }
