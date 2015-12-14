@@ -15,6 +15,9 @@ import br.com.caelum.contadorhoras.modelo.Categoria;
  */
 public class CategoriaDao implements Closeable {
 
+    private static final String TABELA = "Categoria";
+    public static final String ID = "id";
+    public static final String TIPO = "tipo";
     private final DatabaseHelperDao dao;
     private Context context;
 
@@ -28,7 +31,7 @@ public class CategoriaDao implements Closeable {
 
         List<Categoria> categorias = new ArrayList<>();
 
-        Cursor cursor = dao.getReadableDatabase().rawQuery("Select * from categoria", null);
+        Cursor cursor = dao.getReadableDatabase().rawQuery("Select * from "+ TABELA, null);
 
         while (cursor.moveToNext()) {
             categorias.add(popula(cursor));
@@ -41,8 +44,8 @@ public class CategoriaDao implements Closeable {
     private Categoria popula(Cursor cursor) {
         Categoria categoria = new Categoria();
 
-        categoria.setId(cursor.getLong(cursor.getColumnIndex("id")));
-        categoria.setTipo(cursor.getString(cursor.getColumnIndex("tipo")));
+        categoria.setId(cursor.getLong(cursor.getColumnIndex(ID)));
+        categoria.setTipo(cursor.getString(cursor.getColumnIndex(TIPO)));
 
         return categoria;
     }
@@ -58,12 +61,12 @@ public class CategoriaDao implements Closeable {
 
         populaContentValues(categoria, dados);
 
-        dao.getWritableDatabase().insert("Categoria", null, dados);
+        dao.getWritableDatabase().insert(TABELA, null, dados);
     }
 
     private void populaContentValues(Categoria categoria, ContentValues dados) {
-        dados.put("id", categoria.getId());
-        dados.put("tipo", categoria.getTipo());
+        dados.put(ID, categoria.getId());
+        dados.put(TIPO, categoria.getTipo());
     }
 
     private void altera(Categoria categoria) {
@@ -73,7 +76,7 @@ public class CategoriaDao implements Closeable {
         populaContentValues(categoria, dados);
 
         String[] id = {categoria.getId().toString()};
-        dao.getWritableDatabase().update("Categoria", dados, "id = ? ", id);
+        dao.getWritableDatabase().update(TABELA, dados, ID +" = ? ", id);
     }
 
 
@@ -94,7 +97,7 @@ public class CategoriaDao implements Closeable {
 
     private boolean precisaAlteracao(Categoria categoria) {
 
-        String sql = "Select * from Categoria where id = ? , tipo = ? ";
+        String sql = "Select * from "+ TABELA + " where "+ ID +" = ? ,"+ TIPO +" = ? ";
         String[] where = {categoria.getId().toString(), categoria.getTipo()};
         Cursor cursor = dao.getReadableDatabase().rawQuery(sql, where);
         return !cursor.moveToNext();
@@ -102,7 +105,7 @@ public class CategoriaDao implements Closeable {
 
     private boolean hasCategoria(Categoria categoria) {
 
-        String sql = "Select * from Categoria where id = ?  ";
+        String sql = "Select * from " + TABELA + " where "+ ID +" = ?  ";
         String[] where = {categoria.getId().toString()};
         Cursor cursor = dao.getReadableDatabase().rawQuery(sql, where);
         return cursor.moveToNext();

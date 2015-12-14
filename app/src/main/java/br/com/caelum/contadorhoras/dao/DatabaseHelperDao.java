@@ -11,6 +11,21 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
 
     private static final int VERSAO = 1;
     private static final String DATABASE = "ContadorCaelum";
+    public static final String ID_DIA = "id";
+    public static final String DATA = "data";
+    public static final String TABELA_DIA = "Dia";
+    public static final String TABELA_TAREFA = "Tarefa";
+    public static final String ID_TAREFA = "id";
+    public static final String ID_CATEGORIA_TAREFA = "idCategoria";
+    public static final String DATA_DIA = "dataDia";
+    public static final String DESC = "desc";
+    public static final String HORA_INICIAL = "horaInicial";
+    public static final String MINUTO_INICIAL = "minutoInicial";
+    public static final String HORA_FINAL = "horaFinal";
+    public static final String MINUTO_FINAL = "minutoFinal";
+    public static final String TABELA_CATEGORIA = "Categoria";
+    public static final String ID_CATEGORIA = "id";
+    public static final String TIPO = "tipo";
 
     public DatabaseHelperDao(Context ctx) {
         super(ctx, DATABASE, null, VERSAO);
@@ -18,25 +33,25 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "Create table Dia ( " +
-                "id integer primary key , " +
-                "data text not null ) ;";
+        String sql = "Create table "+ TABELA_DIA + " ( " +
+                ID_DIA +" integer primary key , " +
+                DATA + " text not null ) ;";
 
-        String query = "Create table Tarefa ( " +
-                "id integer primary key , " +
-                "idCategoria integer not null," +
-                "dataDia text not null, " +
-                "desc text not null, " +
-                "horaInicial integer not null, " +
-                "minutoInicial integer not null, " +
-                "horaFinal integer not null , " +
-                "minutoFinal integer not null ," +
-                "FOREIGN KEY(dataDia) REFERENCES Dia (data) ," +
-                "FOREIGN KEY(idCategoria) REFERENCES Categoria (id) ) ;";
+        String query = "Create table "+ TABELA_TAREFA +" ( " +
+                ID_TAREFA + "integer primary key , " +
+                ID_CATEGORIA_TAREFA + " integer not null," +
+                DATA_DIA +" text not null, " +
+                DESC + " text not null, " +
+                HORA_INICIAL +" integer not null, " +
+                MINUTO_INICIAL + " integer not null, " +
+                HORA_FINAL +" integer not null , " +
+                MINUTO_FINAL +" integer not null ," +
+                "FOREIGN KEY("+DATA_DIA+") REFERENCES Dia ("+DATA+") ," +
+                "FOREIGN KEY("+ ID_CATEGORIA_TAREFA + ") REFERENCES Categoria ("+ID_CATEGORIA +") ) ;";
 
-        String ddl = "Create table Categoria (" +
-                "id integer primary key , " +
-                "tipo text not null ) ;";
+        String ddl = "Create table "+ TABELA_CATEGORIA +" (" +
+                ID_CATEGORIA +" integer primary key , " +
+                TIPO +" text not null ) ;";
 
 
         String insert = "insert into Categoria (tipo) values ('Aula') ;" ;
