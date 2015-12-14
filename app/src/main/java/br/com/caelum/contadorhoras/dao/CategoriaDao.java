@@ -1,5 +1,6 @@
 package br.com.caelum.contadorhoras.dao;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
@@ -23,13 +24,13 @@ public class CategoriaDao implements Closeable {
 
     }
 
-    public List<Categoria> getCategorias(){
+    public List<Categoria> getCategorias() {
 
         List<Categoria> categorias = new ArrayList<>();
 
         Cursor cursor = dao.getReadableDatabase().rawQuery("Select * from categoria", null);
 
-        while (cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             categorias.add(popula(cursor));
         }
 
@@ -49,5 +50,62 @@ public class CategoriaDao implements Closeable {
     @Override
     public void close() {
         dao.close();
+    }
+
+
+    private void insere(Categoria categoria) {
+        ContentValues dados = new ContentValues();
+
+        populaContentValues(categoria, dados);
+
+        dao.getWritableDatabase().insert("Categoria", null, dados);
+    }
+
+    private void populaContentValues(Categoria categoria, ContentValues dados) {
+        dados.put("id", categoria.getId());
+        dados.put("tipo", categoria.getTipo());
+    }
+
+    private void altera(Categoria categoria) {
+
+        ContentValues dados = new ContentValues();
+
+        populaContentValues(categoria, dados);
+
+        String[] id = {categoria.getId().toString()};
+        dao.getWritableDatabase().update("Categoria", dados, "id = ? ", id);
+    }
+
+
+    public void verificaCategorias(List<Categoria> categorias) {
+
+        for (Categoria categoria : categorias) {
+            if (hasCategoria(categoria)) {
+                if (precisaAlteracao(categoria)) {
+                    altera(categoria);
+                }
+            } else {
+                insere(categoria);
+            }
+
+        }
+    }
+
+
+    private boolean precisaAlteracao(Categoria categoria) {
+
+        String sql = "Select * from Categoria where id = ? , tipo = ? ";
+        String[] where = {categoria.getId().toString(), categoria.getTipo()};
+        Cursor cursor = dao.getReadableDatabase().rawQuery(sql, where);
+        return !cursor.moveToNext();
+    }
+
+    private boolean hasCategoria(Categoria categoria) {
+
+        String sql = "Select * from Categoria where id = ?  ";
+        String[] where = {categoria.getId().toString()};
+        Cursor cursor = dao.getReadableDatabase().rawQuery(sql, where);
+        return cursor.moveToNext();
+
     }
 }

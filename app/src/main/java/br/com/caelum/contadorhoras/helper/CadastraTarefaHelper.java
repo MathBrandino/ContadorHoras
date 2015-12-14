@@ -79,7 +79,6 @@ public class CadastraTarefaHelper {
         }
         tarefa.setIdCategoria(Long.valueOf(atividades.getSelectedItemPosition()));
 
-
         return tarefa;
 
     }

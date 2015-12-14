@@ -19,7 +19,7 @@ public class ReceptorDeToken {
 
     public String post(String json){
         try {
-            url = new URL("https://caelumweb.caelum.com.br/caelumweb");
+            url = new URL("http://caelumweb.caelum.com.br/caelumweb");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestProperty("Accept", "application/json");
