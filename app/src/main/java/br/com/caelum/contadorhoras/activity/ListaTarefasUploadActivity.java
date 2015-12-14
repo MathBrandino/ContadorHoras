@@ -58,8 +58,9 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
     }
 
-    private void pegaDia() {
+    public Dia pegaDia() {
         dia = (Dia) getIntent().getSerializableExtra("dia");
+        return dia;
     }
 
     private void fazUploadDasHoras() {
@@ -78,8 +79,8 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
                 .setPositiveButton("Sim ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        alertaComJson();
-                        //enviaJsonParaServidor(geraJson());
+                        //alertaComJson();
+                        enviaJsonParaServidor(geraJson());
 
                     }
                 })

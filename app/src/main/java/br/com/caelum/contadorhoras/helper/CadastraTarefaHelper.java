@@ -7,7 +7,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
 import android.widget.TimePicker;
 
 import br.com.caelum.contadorhoras.R;
@@ -65,7 +64,7 @@ public class CadastraTarefaHelper {
 
     public Tarefa pegaTarefaFormulario() {
 
-        tarefa.setDesc(descricao.getText().toString());
+        tarefa.setDescricao(descricao.getText().toString());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tarefa.setHoraInicial(tempoInicial.getHour());
             tarefa.setMinutoInicial(tempoInicial.getMinute());
@@ -155,7 +154,7 @@ public class CadastraTarefaHelper {
     }
 
     public void colocaTarefaNoFormulario(Tarefa tarefa) {
-        descricao.setText(tarefa.getDesc());
+        descricao.setText(tarefa.getDescricao());
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tempoFinal.setHour(tarefa.getHoraFinal());
             tempoFinal.setMinute(tarefa.getMinutoFinal());

@@ -35,7 +35,7 @@ public class TarefaDao implements Closeable {
         ContentValues dados = new ContentValues();
 
         dados.put(DATA_DIA, tarefa.getDataDia());
-        dados.put(DESC, tarefa.getDesc());
+        dados.put(DESC, tarefa.getDescricao());
         dados.put(HORA_INICIAL, tarefa.getHoraInicial());
         dados.put(HORA_FINAL, tarefa.getHoraFinal());
         dados.put(MINUTO_INICIAL, tarefa.getMinutoInicial());
@@ -64,7 +64,7 @@ public class TarefaDao implements Closeable {
         ContentValues dados = new ContentValues();
 
         dados.put(DATA_DIA, tarefa.getDataDia());
-        dados.put(DESC, tarefa.getDesc());
+        dados.put(DESC, tarefa.getDescricao());
         dados.put(HORA_FINAL, tarefa.getHoraFinal());
         dados.put(HORA_INICIAL, tarefa.getHoraInicial());
         dados.put(MINUTO_INICIAL, tarefa.getMinutoInicial());
@@ -93,7 +93,7 @@ public class TarefaDao implements Closeable {
 
         tarefa.setId(cursor.getLong(cursor.getColumnIndex("id")));
         tarefa.setDataDia(cursor.getString(cursor.getColumnIndex(DATA_DIA)));
-        tarefa.setDesc(cursor.getString(cursor.getColumnIndex(DESC)));
+        tarefa.setDescricao(cursor.getString(cursor.getColumnIndex(DESC)));
         tarefa.setHoraFinal(cursor.getInt(cursor.getColumnIndex(HORA_FINAL)));
         tarefa.setMinutoFinal(cursor.getInt(cursor.getColumnIndex(MINUTO_FINAL)));
         tarefa.setHoraInicial(cursor.getInt(cursor.getColumnIndex(HORA_INICIAL)));

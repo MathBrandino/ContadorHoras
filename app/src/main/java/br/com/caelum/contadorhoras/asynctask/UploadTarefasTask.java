@@ -2,8 +2,12 @@ package br.com.caelum.contadorhoras.asynctask;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
+import br.com.caelum.contadorhoras.activity.ListaTarefasUploadActivity;
+import br.com.caelum.contadorhoras.dao.DiaDao;
 import br.com.caelum.contadorhoras.servidor.EnviadorDeJson;
 
 /**
@@ -12,10 +16,10 @@ import br.com.caelum.contadorhoras.servidor.EnviadorDeJson;
 public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
 
     private String json;
-    private Activity activity;
+    private ListaTarefasUploadActivity activity;
     private ProgressDialog alertDialog;
 
-    public UploadTarefasTask(String json, Activity activity) {
+    public UploadTarefasTask(String json, ListaTarefasUploadActivity activity) {
         this.json = json;
         this.activity = activity;
     }
@@ -33,7 +37,24 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
+        if ( s != null && !s.trim().isEmpty()){
+
+            removeDia();
+            activity.finish();
+            avisaUsuario();
+        }
         alertDialog.dismiss();
+
+    }
+
+    private void avisaUsuario() {
+        Toast.makeText(activity , "Upload realizado com sucesso !", Toast.LENGTH_LONG).show();
+    }
+
+    private void removeDia() {
+        DiaDao dao = new DiaDao(activity);
+        dao.deleta(activity.pegaDia());
+        dao.close();
     }
 
     @Override

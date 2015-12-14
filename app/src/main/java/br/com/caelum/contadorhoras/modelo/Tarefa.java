@@ -10,7 +10,7 @@ public class Tarefa implements Serializable {
     private Long id;
     private Long idCategoria;
     private String dataDia;
-    private String desc;
+    private String descricao;
     private int horaInicial;
     private int horaFinal;
     private int minutoInicial;
@@ -56,12 +56,12 @@ public class Tarefa implements Serializable {
         this.horaInicial = horaInicial;
     }
 
-    public String getDesc() {
-        return desc;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setDesc(String desc) {
-        this.desc = desc;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
 

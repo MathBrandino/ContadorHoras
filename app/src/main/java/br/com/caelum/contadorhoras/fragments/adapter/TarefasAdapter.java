@@ -64,7 +64,7 @@ public class TarefasAdapter extends BaseAdapter {
         tempoInicial.setText("" + tarefa.getHoraInicial() + " : " + tarefa.getMinutoInicial());
         tempoFinal.setText("" + tarefa.getHoraFinal() + " : " + tarefa.getMinutoFinal());
 
-        descricao.setText(tarefa.getDesc());
+        descricao.setText(tarefa.getDescricao());
 
         return view;
     }

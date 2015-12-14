@@ -18,7 +18,7 @@ public class EnviadorDeJson {
     public String post(String json) {
 
         try {
-            url = new URL("https://caelumweb.caelum.com.br/caelumweb");
+            url = new URL("http://caelumweb.caelum.com.br/caelumweb");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
@@ -42,6 +42,6 @@ public class EnviadorDeJson {
             e.printStackTrace();
         }
 
-        return null;
+        return "";
     }
 }

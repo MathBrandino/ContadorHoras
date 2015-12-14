@@ -38,7 +38,7 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
                 DATA + " text not null ) ;";
 
         String query = "Create table "+ TABELA_TAREFA +" ( " +
-                ID_TAREFA + "integer primary key , " +
+                ID_TAREFA + " integer primary key , " +
                 ID_CATEGORIA_TAREFA + " integer not null," +
                 DATA_DIA +" text not null, " +
                 DESC + " text not null, " +

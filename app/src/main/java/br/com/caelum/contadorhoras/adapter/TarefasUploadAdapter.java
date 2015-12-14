@@ -65,7 +65,7 @@ public class TarefasUploadAdapter extends BaseAdapter {
 
     private void populaView(int position, View view) {
         TextView descricao = (TextView) view.findViewById(R.id.descricao_tarefa_upload);
-        descricao.setText(tarefas.get(position).getDesc());
+        descricao.setText(tarefas.get(position).getDescricao());
 
         TextView horas = (TextView) view.findViewById(R.id.quantidade_horas);
         horas.setText(quantidadeHoras(tarefas.get(position)));
