@@ -11,14 +11,15 @@ import java.util.Scanner;
 /**
  * Created by matheus on 17/11/15.
  */
-public class EnviadorDeJson {
+public class HorasClient {
 
     private URL url;
 
     public String post(String json) {
 
         try {
-            url = new URL("http://caelumweb.caelum.com.br/caelumweb");
+            url = new URL("https://caelumweb.caelum.com.br/caelumweb/android/horas");
+
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
@@ -42,6 +43,6 @@ public class EnviadorDeJson {
             e.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 }

@@ -15,7 +15,7 @@ import java.util.Scanner;
 /**
  * Created by matheus on 26/11/15.
  */
-public class ReceptorDeToken {
+public class LoginClient {
 
     private URL url;
     private String lista;
@@ -62,7 +62,7 @@ public class ReceptorDeToken {
             connection.setRequestMethod("GET");
 
             MessageDigest m = decodeMD5(senha);
-            
+
             String string = new BigInteger(1,m.digest()).toString(16);
 
             connection.setRequestProperty("login", login);
@@ -85,6 +85,7 @@ public class ReceptorDeToken {
         return "";
     }
 
+    // metodo para converter a senha para md5
     @NonNull
     private MessageDigest decodeMD5(String senha) {
         MessageDigest m = null;

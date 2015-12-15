@@ -9,13 +9,13 @@ import android.util.Log;
 
 import java.util.List;
 
+import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.activity.MainActivity;
 import br.com.caelum.contadorhoras.converter.CategoriaConverter;
-import br.com.caelum.contadorhoras.converter.LoginConverter;
 import br.com.caelum.contadorhoras.dao.CategoriaDao;
 import br.com.caelum.contadorhoras.modelo.Categoria;
 import br.com.caelum.contadorhoras.modelo.Login;
-import br.com.caelum.contadorhoras.servidor.ReceptorDeToken;
+import br.com.caelum.contadorhoras.servidor.LoginClient;
 
 /**
  * Created by matheus on 14/12/15.
@@ -44,10 +44,10 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
         /*LoginConverter loginConverter = new LoginConverter();
         String json = loginConverter.toJson(login);
 */
-        ReceptorDeToken receptorDeToken = new ReceptorDeToken();
-   //     String post = receptorDeToken.post(json);
+        LoginClient client = new LoginClient();
+   //     String post = client.post(json);
 
-        String lista = receptorDeToken.get(login.getLogin(), login.getSenha());
+        String lista = client.get(login.getLogin(), login.getSenha());
 
         return lista;
     }
@@ -63,7 +63,7 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
 
     private void validaRequisicao(String lista) {
         Log.i("lista", lista);
-        if (lista != null && lista.trim().isEmpty()) {
+        if (lista != null && !lista.trim().isEmpty()) {
             List<Categoria> categorias = geraCategorias(lista);
 
             verificaCategoriaExistente(categorias);
@@ -78,6 +78,7 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
     private void mostraErro() {
 
         new AlertDialog.Builder(ctx)
+                .setIcon(R.drawable.temp)
                 .setTitle("Tivemos algum problema")
                 .setMessage("Verifique sua conexão ou suas informações e tente novamente")
                 .setCancelable(true)
