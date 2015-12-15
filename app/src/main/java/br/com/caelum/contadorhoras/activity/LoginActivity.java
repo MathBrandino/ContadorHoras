@@ -3,7 +3,6 @@ package br.com.caelum.contadorhoras.activity;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -60,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validaLogin() {
-        if(validaUsuario() && validaSenha()){
+        if (validaUsuario() && validaSenha()) {
             return true;
         }
 
@@ -70,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private boolean validaSenha() {
         TextInputLayout layout = (TextInputLayout) senha.getParent();
-        if (senha.getText().toString().trim().isEmpty()){
+        if (senha.getText().toString().trim().isEmpty()) {
             layout.setError("Senha inválida");
             return false;
         }
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean validaUsuario() {
-        if (usuario.getText().toString().trim().isEmpty() || !usuario.getText().toString().trim().contains(".")){
+        if (usuario.getText().toString().trim().isEmpty()) {
             TextInputLayout layout = (TextInputLayout) usuario.getParent();
             layout.setError("Usuario inválido");
 

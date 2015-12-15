@@ -56,7 +56,7 @@ public class CadastraTarefaHelper {
     private void populaAtividades() {
 
         CategoriaDao dao = new CategoriaDao(activity);
-        ArrayAdapter<Categoria> adapter = new ArrayAdapter(activity,android.R.layout.simple_list_item_1, dao.getCategorias());
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(activity,android.R.layout.simple_list_item_1, dao.getCategorias());
         dao.close();
         atividades.setAdapter(adapter);
 
@@ -65,6 +65,16 @@ public class CadastraTarefaHelper {
     public Tarefa pegaTarefaFormulario() {
 
         tarefa.setDescricao(descricao.getText().toString());
+        tarefa.setIdCategoria(Long.valueOf(atividades.getSelectedItemPosition()));
+        setaHoras();
+
+
+        return tarefa;
+
+    }
+
+    private void setaHoras() {
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             tarefa.setHoraInicial(tempoInicial.getHour());
             tarefa.setMinutoInicial(tempoInicial.getMinute());
@@ -76,10 +86,6 @@ public class CadastraTarefaHelper {
             tarefa.setHoraFinal(tempoFinal.getCurrentHour());
             tarefa.setMinutoFinal(tempoFinal.getCurrentMinute());
         }
-        tarefa.setIdCategoria(Long.valueOf(atividades.getSelectedItemPosition()));
-
-        return tarefa;
-
     }
 
     private boolean validaDescricao() {

@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -225,10 +226,8 @@ public class MainActivity extends AppCompatActivity {
 
                 if (tarefaDao.pegaTarefasDoDia(dia).size() >= 1) {
                     vaiParaListaDeTarefasUpload(dia);
-                    alertDialog.dismiss();
 
                 } else {
-                    alertDialog.dismiss();
                     Snackbar.make(getDiaFragment().getFab(), "Esse dia ainda não tem nenhuma tarefa", Snackbar.LENGTH_SHORT)
                             .setAction("Adicionar", new View.OnClickListener() {
                                 @Override
@@ -237,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
                                 }
                             }).show();
                 }
+
+                alertDialog.dismiss();
             }
         });
     }
