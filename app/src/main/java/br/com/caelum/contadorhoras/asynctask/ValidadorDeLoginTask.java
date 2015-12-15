@@ -35,8 +35,9 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
     protected void onPreExecute() {
         super.onPreExecute();
 
-        progressDialog = ProgressDialog.show(ctx, "Aguarde", "Fazendo validação ", false, false);
+        criaAlerta();
     }
+
 
     @Override
     protected String doInBackground(Void... params) {
@@ -45,7 +46,7 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
         String json = loginConverter.toJson(login);
 */
         LoginClient client = new LoginClient();
-   //     String post = client.post(json);
+        //     String post = client.post(json);
 
         String lista = client.get(login.getLogin(), login.getSenha());
 
@@ -58,7 +59,16 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
 
         validaRequisicao(lista);
 
+        fechaDialog();
+    }
+
+    private void fechaDialog() {
         progressDialog.dismiss();
+    }
+
+
+    private void criaAlerta() {
+        progressDialog = ProgressDialog.show(ctx, "Aguarde", "Fazendo validação ", false, false);
     }
 
     private void validaRequisicao(String lista) {
@@ -101,7 +111,7 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
         return categorias;
     }
 
-    private void vaiParaMain(){
+    private void vaiParaMain() {
         Intent intent = new Intent(ctx, MainActivity.class);
         ctx.startActivity(intent);
     }

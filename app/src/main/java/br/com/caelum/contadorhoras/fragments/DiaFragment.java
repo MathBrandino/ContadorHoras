@@ -30,7 +30,7 @@ import br.com.caelum.contadorhoras.modelo.Dia;
 /**
  * Created by matheus on 10/11/15.
  */
-public class DiaFragment extends Fragment  {
+public class DiaFragment extends Fragment {
 
     private ListView listaDiasTrabalhados;
     private DiasTrabalhadosAdapter adapter;

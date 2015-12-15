@@ -4,13 +4,13 @@ import android.support.annotation.NonNull;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.math.BigInteger;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Scanner;
+
+import javax.net.ssl.HttpsURLConnection;
 
 /**
  * Created by matheus on 26/11/15.
@@ -20,10 +20,10 @@ public class LoginClient {
     private URL url;
     private String lista;
 
-    public String post(String json){
+    public String post(String json) {
         try {
             url = new URL("https://caelumweb.caelum.com.br/caelumweb/android/login");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-type", "application/json");
@@ -37,7 +37,10 @@ public class LoginClient {
 
             connection.connect();
 
-            lista = new Scanner(connection.getInputStream()).next();
+            Scanner scanner = new Scanner(connection.getInputStream());
+
+            while (scanner.hasNext())
+                lista += scanner.next();
 
             return lista;
 
@@ -51,35 +54,36 @@ public class LoginClient {
         return "";
     }
 
-    public String get(String login, String senha){
+    public String get(String login, String senha) {
 
         try {
-            url = new URL("https://caelumweb.caelum.com.br/caelumweb/android/login");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+/*
+            MessageDigest m = decodeMD5(senha);
+
+            String string = new BigInteger(1, m.digest()).toString(16);*/
+
+            url = new URL("https://sistema.caelum.com.br:8443/android/projetosDoUsuario?login="+login+"&senha="+senha);
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
             connection.setRequestProperty("Accept", "application/json");
 
             connection.setRequestMethod("GET");
 
-            MessageDigest m = decodeMD5(senha);
-
-            String string = new BigInteger(1,m.digest()).toString(16);
-
-            connection.setRequestProperty("login", login);
-            connection.setRequestProperty("senha", string);
-
             connection.connect();
 
-            lista = new Scanner(connection.getInputStream()).next();
+            Scanner scanner = new Scanner(connection.getInputStream());
 
-            return lista;
+            while (scanner.hasNext())
+                lista += scanner.next();
+
+            String substring = lista.substring(4);
+            return substring;
 
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
         return "";

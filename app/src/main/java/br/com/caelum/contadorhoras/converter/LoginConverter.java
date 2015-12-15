@@ -9,7 +9,7 @@ import br.com.caelum.contadorhoras.modelo.Login;
  */
 public class LoginConverter {
 
-    public String toJson(Login login){
+    public String toJson(Login login) {
 
         Gson gson = new Gson();
         return gson.toJson(login);

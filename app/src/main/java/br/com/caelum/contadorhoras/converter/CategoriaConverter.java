@@ -17,7 +17,7 @@ import br.com.caelum.contadorhoras.modelo.Categoria;
 public class CategoriaConverter {
 
 
-    private static final String PROJETOS = "Projetos";
+    private static final String PROJETOS = "projetos";
     private static final String ID = "id";
     private static final String TIPO = "nome";
 

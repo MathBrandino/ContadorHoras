@@ -45,14 +45,18 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
         } else {
             mostraErro();
         }
-        alertDialog.dismiss();
+        fechaAlerta();
 
+    }
+
+    private void fechaAlerta() {
+        alertDialog.dismiss();
     }
 
     private void finalizaRequest() {
         removeDia();
         saiDaTela();
-        avisaUsuario();
+        avisaUsuarioSucesso();
     }
 
     private void saiDaTela() {
@@ -79,7 +83,7 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
                 .show();
     }
 
-    private void avisaUsuario() {
+    private void avisaUsuarioSucesso() {
         Toast.makeText(activity, "Upload realizado com sucesso !", Toast.LENGTH_LONG).show();
     }
 

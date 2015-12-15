@@ -26,6 +26,10 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
     public static final String TIPO = "tipo";
     private static final int VERSAO = 1;
     private static final String DATABASE = "ContadorCaelum";
+    public static final String ID_LOGIN = "id";
+    private static final String TABELA_LOGIN = "Login";
+    public static final String USUARIO = "usuario";
+    public static final String SENHA = "senha";
 
     public DatabaseHelperDao(Context ctx) {
         super(ctx, DATABASE, null, VERSAO);
@@ -33,38 +37,37 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "Create table "+ TABELA_DIA + " ( " +
-                ID_DIA +" integer primary key , " +
+        String sql = "Create table " + TABELA_DIA + " ( " +
+                ID_DIA + " integer primary key , " +
                 DATA + " text not null ) ;";
 
-        String query = "Create table "+ TABELA_TAREFA +" ( " +
+        String query = "Create table " + TABELA_TAREFA + " ( " +
                 ID_TAREFA + " integer primary key , " +
                 ID_CATEGORIA_TAREFA + " integer not null," +
-                DATA_DIA +" text not null, " +
+                DATA_DIA + " text not null, " +
                 DESC + " text not null, " +
-                HORA_INICIAL +" integer not null, " +
+                HORA_INICIAL + " integer not null, " +
                 MINUTO_INICIAL + " integer not null, " +
-                HORA_FINAL +" integer not null , " +
-                MINUTO_FINAL +" integer not null ," +
-                "FOREIGN KEY("+DATA_DIA+") REFERENCES Dia ("+DATA+") ," +
-                "FOREIGN KEY("+ ID_CATEGORIA_TAREFA + ") REFERENCES Categoria ("+ID_CATEGORIA +") ) ;";
+                HORA_FINAL + " integer not null , " +
+                MINUTO_FINAL + " integer not null ," +
+                "FOREIGN KEY(" + DATA_DIA + ") REFERENCES Dia (" + DATA + ") ," +
+                "FOREIGN KEY(" + ID_CATEGORIA_TAREFA + ") REFERENCES Categoria (" + ID_CATEGORIA + ") ) ;";
 
-        String ddl = "Create table "+ TABELA_CATEGORIA +" (" +
-                ID_CATEGORIA +" integer primary key , " +
-                TIPO +" text not null ) ;";
+        String ddl = "Create table " + TABELA_CATEGORIA + " (" +
+                ID_CATEGORIA + " integer primary key , " +
+                TIPO + " text not null ) ;";
 
+        String create = "Create table "+ TABELA_LOGIN +" ( " +
+                ID_LOGIN + " integer primary key, " +
+                USUARIO + " text not null , " +
+                SENHA + " text not null ) ;";
 
-        String insert = "insert into Categoria (tipo) values ('Aula') ;" ;
-        String insert1 = "insert into Categoria (tipo) values ('Video') ; ";
-        String insert2 = "insert into Categoria (tipo) values ('Livro') ;";
 
 
         db.execSQL(sql);
         db.execSQL(ddl);
-        db.execSQL(insert);
-        db.execSQL(insert1);
-        db.execSQL(insert2);
         db.execSQL(query);
+        db.execSQL(create);
     }
 
     @Override

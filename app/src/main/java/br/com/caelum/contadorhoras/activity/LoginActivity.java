@@ -10,7 +10,6 @@ import android.widget.EditText;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.asynctask.ValidadorDeLoginTask;
-import br.com.caelum.contadorhoras.converter.LoginConverter;
 import br.com.caelum.contadorhoras.modelo.Login;
 
 /**
@@ -39,14 +38,9 @@ public class LoginActivity extends AppCompatActivity {
                 if (validaLogin()) {
                     criaLogin();
 
-
-                    LoginConverter loginConverter = new LoginConverter();
-                    String s = loginConverter.toJson(login);
-
                     //new AlertDialog.Builder(LoginActivity.this).setMessage(s).show();
 
-                    ValidadorDeLoginTask task = new ValidadorDeLoginTask(login, LoginActivity.this);
-                    task.execute();
+                    new ValidadorDeLoginTask(login, LoginActivity.this).execute();
                 }
 
             }

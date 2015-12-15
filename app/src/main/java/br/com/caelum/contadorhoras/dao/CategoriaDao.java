@@ -31,7 +31,7 @@ public class CategoriaDao implements Closeable {
 
         List<Categoria> categorias = new ArrayList<>();
 
-        Cursor cursor = dao.getReadableDatabase().rawQuery("Select * from "+ TABELA, null);
+        Cursor cursor = dao.getReadableDatabase().rawQuery("Select * from " + TABELA, null);
 
         while (cursor.moveToNext()) {
             categorias.add(popula(cursor));
@@ -76,7 +76,7 @@ public class CategoriaDao implements Closeable {
         populaContentValues(categoria, dados);
 
         String[] id = {categoria.getId().toString()};
-        dao.getWritableDatabase().update(TABELA, dados, ID +" = ? ", id);
+        dao.getWritableDatabase().update(TABELA, dados, ID + " = ? ", id);
     }
 
 
@@ -97,7 +97,7 @@ public class CategoriaDao implements Closeable {
 
     private boolean precisaAlteracao(Categoria categoria) {
 
-        String sql = "Select * from "+ TABELA + " where "+ ID +" = ? ,"+ TIPO +" = ? ";
+        String sql = "Select * from " + TABELA + " where " + ID + " = ? and " + TIPO + " = ? ";
         String[] where = {categoria.getId().toString(), categoria.getTipo()};
         Cursor cursor = dao.getReadableDatabase().rawQuery(sql, where);
         return !cursor.moveToNext();
@@ -105,7 +105,7 @@ public class CategoriaDao implements Closeable {
 
     private boolean hasCategoria(Categoria categoria) {
 
-        String sql = "Select * from " + TABELA + " where "+ ID +" = ?  ";
+        String sql = "Select * from " + TABELA + " where " + ID + " = ?  ";
         String[] where = {categoria.getId().toString()};
         Cursor cursor = dao.getReadableDatabase().rawQuery(sql, where);
         return cursor.moveToNext();

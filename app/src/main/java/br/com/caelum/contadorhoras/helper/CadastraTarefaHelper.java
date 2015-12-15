@@ -56,7 +56,7 @@ public class CadastraTarefaHelper {
     private void populaAtividades() {
 
         CategoriaDao dao = new CategoriaDao(activity);
-        ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(activity,android.R.layout.simple_list_item_1, dao.getCategorias());
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(activity, android.R.layout.simple_list_item_1, dao.getCategorias());
         dao.close();
         atividades.setAdapter(adapter);
 
