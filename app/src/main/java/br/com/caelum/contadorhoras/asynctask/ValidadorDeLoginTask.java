@@ -1,18 +1,19 @@
 package br.com.caelum.contadorhoras.asynctask;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
 import java.util.List;
 
 import br.com.caelum.contadorhoras.R;
+import br.com.caelum.contadorhoras.activity.LoginActivity;
 import br.com.caelum.contadorhoras.activity.MainActivity;
 import br.com.caelum.contadorhoras.converter.CategoriaConverter;
+import br.com.caelum.contadorhoras.converter.LoginConverter;
 import br.com.caelum.contadorhoras.dao.CategoriaDao;
+import br.com.caelum.contadorhoras.dao.LoginDao;
 import br.com.caelum.contadorhoras.modelo.Categoria;
 import br.com.caelum.contadorhoras.modelo.Login;
 import br.com.caelum.contadorhoras.servidor.LoginClient;
@@ -23,12 +24,12 @@ import br.com.caelum.contadorhoras.servidor.LoginClient;
 public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
 
     private Login login;
-    private Context ctx;
+    private LoginActivity activity;
     private ProgressDialog progressDialog;
 
-    public ValidadorDeLoginTask(Login login, Context ctx) {
+    public ValidadorDeLoginTask(Login login, LoginActivity activity) {
         this.login = login;
-        this.ctx = ctx;
+        this.activity = activity;
     }
 
     @Override
@@ -42,13 +43,12 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
     @Override
     protected String doInBackground(Void... params) {
 
-        /*LoginConverter loginConverter = new LoginConverter();
+        LoginConverter loginConverter = new LoginConverter();
         String json = loginConverter.toJson(login);
-*/
-        LoginClient client = new LoginClient();
-        //     String post = client.post(json);
 
-        String lista = client.get(login.getLogin(), login.getSenha());
+        LoginClient client = new LoginClient();
+
+        String lista = client.post(json);
 
         return lista;
     }
@@ -68,26 +68,43 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
 
 
     private void criaAlerta() {
-        progressDialog = ProgressDialog.show(ctx, "Aguarde", "Fazendo validação ", false, false);
+        progressDialog = ProgressDialog.show(activity, "Aguarde", "Fazendo validação ", false, false);
     }
 
     private void validaRequisicao(String lista) {
-        Log.i("lista", lista);
+
         if (lista != null && !lista.trim().isEmpty()) {
             List<Categoria> categorias = geraCategorias(lista);
 
             verificaCategoriaExistente(categorias);
 
+            validaLoginBanco();
+
             vaiParaMain();
+
+            finalizaFormulario();
 
         } else {
             mostraErro();
         }
     }
 
+    private void finalizaFormulario() {
+
+        activity.finish();
+
+    }
+
+    private void validaLoginBanco() {
+
+        LoginDao dao = new LoginDao(activity);
+        dao.valida(login);
+        dao.close();
+    }
+
     private void mostraErro() {
 
-        new AlertDialog.Builder(ctx)
+        new AlertDialog.Builder(activity)
                 .setIcon(R.drawable.temp)
                 .setTitle("Tivemos algum problema")
                 .setMessage("Verifique sua conexão ou suas informações e tente novamente")
@@ -97,7 +114,7 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
 
     private void verificaCategoriaExistente(List<Categoria> categorias) {
 
-        CategoriaDao dao = new CategoriaDao(ctx);
+        CategoriaDao dao = new CategoriaDao(activity);
         dao.verificaCategorias(categorias);
         dao.close();
 
@@ -112,7 +129,8 @@ public class ValidadorDeLoginTask extends AsyncTask<Void, Void, String> {
     }
 
     private void vaiParaMain() {
-        Intent intent = new Intent(ctx, MainActivity.class);
-        ctx.startActivity(intent);
+        Intent intent = new Intent(activity, MainActivity.class);
+        activity.startActivity(intent);
+
     }
 }

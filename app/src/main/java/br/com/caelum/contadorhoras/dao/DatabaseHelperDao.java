@@ -24,12 +24,12 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
     public static final String TABELA_CATEGORIA = "Categoria";
     public static final String ID_CATEGORIA = "id";
     public static final String TIPO = "tipo";
-    private static final int VERSAO = 1;
-    private static final String DATABASE = "ContadorCaelum";
     public static final String ID_LOGIN = "id";
-    private static final String TABELA_LOGIN = "Login";
     public static final String USUARIO = "usuario";
     public static final String SENHA = "senha";
+    private static final int VERSAO = 1;
+    private static final String DATABASE = "ContadorCaelum";
+    private static final String TABELA_LOGIN = "Login";
 
     public DatabaseHelperDao(Context ctx) {
         super(ctx, DATABASE, null, VERSAO);
@@ -57,11 +57,10 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
                 ID_CATEGORIA + " integer primary key , " +
                 TIPO + " text not null ) ;";
 
-        String create = "Create table "+ TABELA_LOGIN +" ( " +
+        String create = "Create table " + TABELA_LOGIN + " ( " +
                 ID_LOGIN + " integer primary key, " +
                 USUARIO + " text not null , " +
                 SENHA + " text not null ) ;";
-
 
 
         db.execSQL(sql);

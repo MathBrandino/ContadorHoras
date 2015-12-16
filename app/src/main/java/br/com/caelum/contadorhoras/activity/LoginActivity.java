@@ -38,8 +38,6 @@ public class LoginActivity extends AppCompatActivity {
                 if (validaLogin()) {
                     criaLogin();
 
-                    //new AlertDialog.Builder(LoginActivity.this).setMessage(s).show();
-
                     new ValidadorDeLoginTask(login, LoginActivity.this).execute();
                 }
 
