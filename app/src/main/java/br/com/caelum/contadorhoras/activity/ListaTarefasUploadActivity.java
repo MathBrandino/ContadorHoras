@@ -23,8 +23,10 @@ import br.com.caelum.contadorhoras.adapter.TarefasUploadAdapter;
 import br.com.caelum.contadorhoras.asynctask.UploadTarefasTask;
 import br.com.caelum.contadorhoras.converter.TarefaConverter;
 import br.com.caelum.contadorhoras.dao.DiaDao;
+import br.com.caelum.contadorhoras.dao.LoginDao;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.modelo.Dia;
+import br.com.caelum.contadorhoras.modelo.Login;
 import br.com.caelum.contadorhoras.modelo.Tarefa;
 
 /**
@@ -79,8 +81,8 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
                 .setPositiveButton("Sim ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //alertaComJson();
-                        enviaJsonParaServidor(geraJson());
+                        alertaComJson();
+                        //enviaJsonParaServidor(geraJson());
 
                     }
                 })
@@ -187,7 +189,16 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
 
     private String geraJson() {
 
-        return new TarefaConverter().toJson(tarefas);
+        Login login = getLogin();
+
+        return new TarefaConverter().toJson(tarefas, login);
+    }
+
+    private Login getLogin() {
+        LoginDao dao = new LoginDao(this);
+        Login login = dao.pegaLoginValido();
+        dao.close();
+        return login;
     }
 
     private AlertDialog alertaComJson() {
