@@ -27,6 +27,7 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
     public static final String ID_LOGIN = "id";
     public static final String USUARIO = "usuario";
     public static final String SENHA = "senha";
+    public static final String NUMERO_ITEM = "numItem";
     private static final int VERSAO = 1;
     private static final String DATABASE = "ContadorCaelum";
     private static final String TABELA_LOGIN = "Login";
@@ -43,6 +44,7 @@ class DatabaseHelperDao extends SQLiteOpenHelper {
 
         String query = "Create table " + TABELA_TAREFA + " ( " +
                 ID_TAREFA + " integer primary key , " +
+                NUMERO_ITEM + " integer ," +
                 ID_CATEGORIA_TAREFA + " integer not null," +
                 DATA_DIA + " text not null, " +
                 DESC + " text not null, " +

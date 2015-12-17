@@ -15,6 +15,8 @@ public class Tarefa implements Serializable {
     private int horaFinal;
     private int minutoInicial;
     private int minutoFinal;
+    private int item;
+
 
     public String getDataDia() {
         return dataDia;
@@ -79,5 +81,13 @@ public class Tarefa implements Serializable {
 
     public void setIdCategoria(Long idCategoria) {
         this.idCategoria = idCategoria;
+    }
+
+    public int getItem() {
+        return item;
+    }
+
+    public void setItem(int item) {
+        this.item = item;
     }
 }

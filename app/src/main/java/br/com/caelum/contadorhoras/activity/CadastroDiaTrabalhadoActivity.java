@@ -94,7 +94,7 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
                     dao.close();
 
                 } else {
-                    Snackbar.make(helper.getData(), "Selecione uma data, por gentileza", Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(helper.getData(), "Selecione uma data válida, por gentileza", Snackbar.LENGTH_LONG).show();
                 }
 
                 return true;

@@ -15,10 +15,10 @@ public class HorasClient {
 
     private URL url;
 
-    public String post(String json) {
+    public int post(String json) {
 
         try {
-            url = new URL("https://caelumweb.caelum.com.br/caelumweb/android/horas");
+            url = new URL("https://192.168.84.115/externo/android/salvaHoras");
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -26,15 +26,12 @@ public class HorasClient {
             connection.setDoInput(true);
 
             connection.setRequestProperty("Content-type", "application/json");
-            connection.setRequestProperty("Accept", "application/json");
-
             PrintStream saida = new PrintStream(connection.getOutputStream());
             saida.println(json);
 
             connection.connect();
-            String resposta = new Scanner(connection.getInputStream()).next();
 
-            return resposta;
+            return connection.getResponseCode();
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (ProtocolException e) {
@@ -43,6 +40,6 @@ public class HorasClient {
             e.printStackTrace();
         }
 
-        return null;
+        return 204;
     }
 }

@@ -13,12 +13,13 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class LoginClient {
 
+    public static final String HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_PROJETOS_DO_USUARIO = "https://sistema.caelum.com.br:8443/android/projetosDoUsuario";
     private URL url;
     private String lista;
 
     public String post(String json) {
         try {
-            url = new URL("https://sistema.caelum.com.br:8443/android/projetosDoUsuario");
+            url = new URL(HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_PROJETOS_DO_USUARIO);
             HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
             connection.setRequestProperty("Accept", "application/json");
@@ -34,7 +35,6 @@ public class LoginClient {
             connection.connect();
 
             Scanner scanner = new Scanner(connection.getInputStream());
-
 
             while (scanner.hasNext())
                 lista += scanner.next();

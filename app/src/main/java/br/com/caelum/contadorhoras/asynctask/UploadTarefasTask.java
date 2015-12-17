@@ -6,6 +6,8 @@ import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.activity.ListaTarefasUploadActivity;
 import br.com.caelum.contadorhoras.dao.DiaDao;
@@ -14,7 +16,7 @@ import br.com.caelum.contadorhoras.servidor.HorasClient;
 /**
  * Created by matheus on 17/11/15.
  */
-public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
+public class UploadTarefasTask extends AsyncTask<Void, Void, Integer> {
 
     private String json;
     private ListaTarefasUploadActivity activity;
@@ -26,19 +28,19 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, String> {
     }
 
     @Override
-    protected String doInBackground(Void... params) {
+    protected Integer doInBackground(Void... params) {
 
         HorasClient client = new HorasClient();
 
-        String post = client.post(json);
+        int post = client.post(json);
 
         return post;
     }
 
     @Override
-    protected void onPostExecute(String s) {
+    protected void onPostExecute(Integer s) {
         super.onPostExecute(s);
-        if (s != null && !s.trim().isEmpty()) {
+        if (s == HttpsURLConnection.HTTP_OK) {
 
             finalizaRequest();
 

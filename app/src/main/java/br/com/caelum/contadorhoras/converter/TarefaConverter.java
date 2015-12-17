@@ -1,11 +1,14 @@
 package br.com.caelum.contadorhoras.converter;
 
-import com.google.gson.Gson;
-import com.google.gson.stream.JsonWriter;
+import android.support.annotation.NonNull;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
+import org.json.JSONException;
+import org.json.JSONStringer;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import br.com.caelum.contadorhoras.modelo.Login;
@@ -16,25 +19,153 @@ import br.com.caelum.contadorhoras.modelo.Tarefa;
  */
 public class TarefaConverter {
 
+    public static final String LOGIN = "login";
+    public static final String SENHA = "senha";
+    public static final String TAREFAS = "br.com.caelum.caelumweb2.modelo.consultoria.HoraExecutada";
+    public static final String PROJETO = "br.com.caelum.caelumweb2.modelo.consultoria.ProjetoConsultoria";
+    public static final String INICIO = "inicio";
+    public static final String FIM = "fim";
+    public static final String TEMPO_ALMOCO = "tempoAlmoco";
+    public static final String DURACAO = "duracao";
+    public static final String COMENTARIOS = "comentarios";
+    public static final String DATA = "data";
+    public static final String USUARIO = "br.com.caelum.caelumweb2.modelo.pessoas.Usuario";
+    public static final String OBJETO = "br.com.caelum.caelumweb2.modelo.pessoas.UsuarioComHoras";
+
     public String toJson(List<Tarefa> tarefas, Login login) {
 
-        Gson gson = new Gson();
-        String tarefasGson = gson.toJson(tarefas);
-        String loginGson = new Gson().toJson(login);
-        Writer writer = new StringWriter();
+        JSONStringer json = new JSONStringer();
+
         try {
 
-            JsonWriter jsonWriter = gson.newJsonWriter(writer);
-            jsonWriter.beginObject().name("request").beginArray();
-            jsonWriter.beginObject().name("usuario").jsonValue(loginGson).endObject();
-            jsonWriter.beginObject().name("tarefas").jsonValue(tarefasGson).endObject();
-            jsonWriter.endArray().endObject();
+            json.object().key(OBJETO).array();
+            json.object().key(USUARIO);
+            json.object()
+                    .key(LOGIN).value(login.getLogin())
+                    .key(SENHA).value(login.getSenha());
+            json.endObject();
+            json.endObject();
 
-        } catch (IOException e) {
+            json.object().key(TAREFAS).array();
+
+            for (Tarefa tarefa : tarefas) {
+
+                JSONStringer jsonTarefa = json.object();
+
+                jsonTarefa.key(PROJETO).value(tarefa.getIdCategoria());
+
+                Calendar dataCalendar = getCalendar(tarefa);
+
+
+                String inicio = geraInicio(tarefa);
+                jsonTarefa.key(INICIO).value(inicio);
+
+                String fim = geraFim(tarefa);
+                jsonTarefa.key(FIM).value(fim);
+
+                jsonTarefa.key(TEMPO_ALMOCO).value("00:00");
+
+                long duracao = geraDuracao(tarefa);
+                jsonTarefa.key(DURACAO).value(duracao);
+
+                jsonTarefa.key(COMENTARIOS).value(tarefa.getDescricao());
+
+                jsonTarefa.key(DATA).value(dataCalendar.getTime());
+
+                jsonTarefa.endObject();
+            }
+
+            json.endArray().endObject();
+            json.endArray().endObject();
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (ParseException e) {
             e.printStackTrace();
         }
-        return writer.toString();
 
+        return json.toString();
+    }
+
+    private long geraDuracao(Tarefa tarefa) {
+        Long contador = 0L;
+
+        int horaInicial = tarefa.getHoraInicial();
+        int minutoInicial = tarefa.getMinutoInicial();
+        int horaFinal = tarefa.getHoraFinal();
+        int minutoFinal = tarefa.getMinutoFinal();
+        String tempoInicial = tarefa.getDataDia() + " " + horaInicial + ":" + minutoInicial;
+        String tempoFinal = tarefa.getDataDia() + " " + horaFinal + ":" + minutoFinal;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        Date dateFinal = null;
+        Date dateInicial = null;
+        try {
+            dateFinal = dateFormat.parse(tempoFinal);
+            dateInicial = dateFormat.parse(tempoInicial);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        contador = dateFinal.getTime() - dateInicial.getTime();
+
+
+        long minutos = (contador / 1000) / 60;
+
+
+        return minutos;
+    }
+
+    private String geraFim(Tarefa tarefa) {
+
+
+        String minutoFinal = String.valueOf(tarefa.getMinutoFinal());
+        String horaFinal = String.valueOf(tarefa.getHoraFinal());
+
+        if (tarefa.getMinutoFinal() < 10) {
+            minutoFinal = "0" + tarefa.getMinutoFinal();
+        }
+
+        if (tarefa.getHoraFinal() < 10) {
+            horaFinal = "0" + tarefa.getHoraFinal();
+        }
+
+        String fim = horaFinal + ":" + minutoFinal;
+
+        return fim;
+
+
+    }
+
+    private String geraInicio(Tarefa tarefa) {
+
+
+        String minutoInicial = String.valueOf(tarefa.getMinutoInicial());
+        String horaInicial = String.valueOf(tarefa.getHoraInicial());
+
+        if (tarefa.getMinutoInicial() < 10) {
+            minutoInicial = "0" + tarefa.getMinutoInicial();
+        }
+
+        if (tarefa.getHoraInicial() < 10) {
+            horaInicial = "0" + tarefa.getHoraInicial();
+        }
+
+        String inicio = horaInicial + ":" + minutoInicial;
+
+        return inicio;
+
+    }
+
+    @NonNull
+    private Calendar getCalendar(Tarefa tarefa) throws ParseException {
+        Calendar dataCalendar = Calendar.getInstance();
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataFormatada = format.parse(tarefa.getDataDia());
+        dataCalendar.setTime(dataFormatada);
+        return dataCalendar;
     }
 
 

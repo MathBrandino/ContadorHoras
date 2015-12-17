@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import br.com.caelum.contadorhoras.R;
@@ -50,7 +51,34 @@ public class CadastroDiaHelper {
     }
 
     public boolean validaData() {
-        return !data.getText().toString().contains("Selecione");
+
+        Date dataAtual = new Date(System.currentTimeMillis());
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        Date dataSelecionada = null;
+        try {
+            dataSelecionada = format.parse(dia.getData());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar calendarAtual = Calendar.getInstance();
+        calendarAtual.setTime(dataAtual);
+
+        Calendar calendarSelecionado = Calendar.getInstance();
+        calendarSelecionado.setTime(dataSelecionada);
+
+        int diaAtual = calendarAtual.get(Calendar.DAY_OF_MONTH);
+        int diaSelecionado = calendarSelecionado.get(Calendar.DAY_OF_MONTH);
+
+        if (diaSelecionado > diaAtual) {
+            return false;
+        }
+        int diaMinimo = (diaAtual - 14);
+        if (diaMinimo >= diaSelecionado) {
+            return false;
+        }
+
+        return true;
     }
 
     public void colocaDiaNoFormulario(Dia dia) {

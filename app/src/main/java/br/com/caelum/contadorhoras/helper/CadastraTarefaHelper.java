@@ -65,7 +65,9 @@ public class CadastraTarefaHelper {
     public Tarefa pegaTarefaFormulario() {
 
         tarefa.setDescricao(descricao.getText().toString());
-        tarefa.setIdCategoria(Long.valueOf(atividades.getSelectedItemPosition()));
+        tarefa.setItem(atividades.getSelectedItemPosition());
+        Categoria categoria = (Categoria) atividades.getItemAtPosition(atividades.getSelectedItemPosition());
+        tarefa.setIdCategoria(categoria.getId());
         setaHoras();
 
 
@@ -173,7 +175,7 @@ public class CadastraTarefaHelper {
             tempoInicial.setCurrentMinute(tarefa.getMinutoInicial());
         }
 
-        atividades.setSelection(tarefa.getIdCategoria().intValue());
+        atividades.setSelection(tarefa.getItem());
 
         this.tarefa = tarefa;
 
