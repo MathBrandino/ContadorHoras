@@ -67,8 +67,8 @@ public class CadastroDiaHelper {
         Calendar calendarSelecionado = Calendar.getInstance();
         calendarSelecionado.setTime(dataSelecionada);
 
-        int diaAtual = calendarAtual.get(Calendar.DAY_OF_MONTH);
-        int diaSelecionado = calendarSelecionado.get(Calendar.DAY_OF_MONTH);
+        int diaAtual = calendarAtual.get(Calendar.DAY_OF_YEAR);
+        int diaSelecionado = calendarSelecionado.get(Calendar.DAY_OF_YEAR);
 
         if (diaSelecionado > diaAtual) {
             return false;
