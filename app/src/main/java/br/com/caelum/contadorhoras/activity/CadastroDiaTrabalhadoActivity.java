@@ -1,7 +1,6 @@
 package br.com.caelum.contadorhoras.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -22,6 +21,7 @@ import br.com.caelum.contadorhoras.modelo.Dia;
  */
 public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
 
+    private static final String DIA = "dia";
     private CadastroDiaHelper helper;
     private String dataAntiga;
 
@@ -48,8 +48,8 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
     }
 
     private void verificaIntentRecebida() {
-        if (getIntent().hasExtra("dia")) {
-            Dia dia = (Dia) getIntent().getSerializableExtra("dia");
+        if (getIntent().hasExtra(DIA)) {
+            Dia dia = (Dia) getIntent().getSerializableExtra(DIA);
             helper.colocaDiaNoFormulario(dia);
             dataAntiga = dia.getData();
         }
@@ -85,7 +85,7 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
                         if (dao.verificaDiaJaExiste(dia.getData())) {
                             fazInsercao(dia, dao);
                         } else {
-                            Snackbar.make(helper.getData(), "Você já possui um registro com essa data", Snackbar.LENGTH_SHORT).show();
+                            helper.mostraErroDataJaExiste();
                         }
                     } else {
                         fazAlteracao(dia, dao);
@@ -93,8 +93,6 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
 
                     dao.close();
 
-                } else {
-                    Snackbar.make(helper.getData(), "Selecione uma data válida, por gentileza", Snackbar.LENGTH_LONG).show();
                 }
 
                 return true;

@@ -7,6 +7,8 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
+import javax.net.ssl.HttpsURLConnection;
+
 /**
  * Created by matheus on 17/11/15.
  */
@@ -39,6 +41,6 @@ public class HorasClient {
             e.printStackTrace();
         }
 
-        return 204;
+        return HttpsURLConnection.HTTP_FORBIDDEN;
     }
 }

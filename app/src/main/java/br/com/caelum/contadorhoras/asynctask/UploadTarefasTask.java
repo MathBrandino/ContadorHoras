@@ -32,15 +32,15 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, Integer> {
 
         HorasClient client = new HorasClient();
 
-        int post = client.post(json);
+        int code = client.post(json);
 
-        return post;
+        return code;
     }
 
     @Override
-    protected void onPostExecute(Integer s) {
-        super.onPostExecute(s);
-        if (s == HttpsURLConnection.HTTP_OK) {
+    protected void onPostExecute(Integer code) {
+        super.onPostExecute(code);
+        if (code == HttpsURLConnection.HTTP_OK) {
 
             finalizaRequest();
 

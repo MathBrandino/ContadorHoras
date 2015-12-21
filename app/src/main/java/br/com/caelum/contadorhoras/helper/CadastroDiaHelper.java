@@ -1,5 +1,6 @@
 package br.com.caelum.contadorhoras.helper;
 
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.widget.CalendarView;
 import android.widget.TextView;
@@ -28,12 +29,23 @@ public class CadastroDiaHelper {
     public CadastroDiaHelper(CadastroDiaTrabalhadoActivity activity) {
 
         this.activity = activity;
+
+        preparaViews();
+
+        dia = new Dia();
+    }
+
+    private void preparaViews() {
+        preparaToolbar();
+
+        calendario = (CalendarView) activity.findViewById(R.id.calendario);
+        data = (TextView) activity.findViewById(R.id.data_inserida);
+    }
+
+    private void preparaToolbar() {
         toolbar = (Toolbar) activity.findViewById(R.id.toolbar_cadastro_dia_trabalhado);
         this.activity.setSupportActionBar(toolbar);
         this.activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        calendario = (CalendarView) activity.findViewById(R.id.calendario);
-        data = (TextView) activity.findViewById(R.id.data_inserida);
-        dia = new Dia();
     }
 
     public Dia geraDiaFormulario() {
@@ -70,15 +82,49 @@ public class CadastroDiaHelper {
         int diaAtual = calendarAtual.get(Calendar.DAY_OF_YEAR);
         int diaSelecionado = calendarSelecionado.get(Calendar.DAY_OF_YEAR);
 
-        if (diaSelecionado > diaAtual) {
+
+        if (isTomorrow(diaAtual, diaSelecionado)) {
+
+            erroDataAdiantada();
+
             return false;
         }
-        int diaMinimo = (diaAtual - 14);
-        if (diaMinimo >= diaSelecionado) {
+
+        if (hasTwoWeeks(diaAtual, diaSelecionado)) {
+
+            erroDataLimiteUltrapassada();
+
             return false;
         }
 
         return true;
+    }
+
+    private void erroDataLimiteUltrapassada() {
+        Snackbar.make(data, "Você não pode marcar essa data, limite de 14 dias ultrapassado.", Snackbar.LENGTH_SHORT).show();
+    }
+
+    private void erroDataAdiantada() {
+        Snackbar.make(data, "Você não pode marcar um dia posterior ao de hoje, selecione um dia valido", Snackbar.LENGTH_LONG).show();
+    }
+
+    private boolean hasTwoWeeks(int diaAtual, int diaSelecionado) {
+
+
+        int diaMinimo = (diaAtual - 14);
+        if (diaMinimo >= diaSelecionado) {
+            return true;
+        }
+
+        return false;
+    }
+
+    private boolean isTomorrow(int diaAtual, int diaSelecionado) {
+        if (diaSelecionado > diaAtual) {
+            return true;
+        }
+
+        return false;
     }
 
     public void colocaDiaNoFormulario(Dia dia) {
@@ -92,6 +138,12 @@ public class CadastroDiaHelper {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+
+    }
+
+    public void mostraErroDataJaExiste() {
+        Snackbar.make(getData(), "Você já possui um registro com essa data", Snackbar.LENGTH_SHORT).show();
+
 
     }
 }

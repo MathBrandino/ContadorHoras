@@ -25,6 +25,7 @@ public class TarefaDao implements Closeable {
     private static final String DATA_DIA = "dataDia";
     private static final String NUMERO_ITEM = "numItem";
     private static final String ID_CATEGORIA = "idCategoria";
+    private static final String ID = "id";
     private DatabaseHelperDao helperDao;
 
     public TarefaDao(Context context) {
@@ -74,7 +75,7 @@ public class TarefaDao implements Closeable {
         dados.put(MINUTO_FINAL, tarefa.getMinutoFinal());
         dados.put(ID_CATEGORIA, tarefa.getIdCategoria());
 
-        helperDao.getWritableDatabase().update(TABELA, dados, " id  = ? ", new String[]{String.valueOf(tarefa.getId())});
+        helperDao.getWritableDatabase().update(TABELA, dados, ID + " = ? ", new String[]{String.valueOf(tarefa.getId())});
     }
 
     public void alteraData(String dataAntiga, String dataNova) {
@@ -86,7 +87,7 @@ public class TarefaDao implements Closeable {
 
     public void deleta(Tarefa tarefa) {
 
-        helperDao.getWritableDatabase().delete(TABELA, "id = ? ", new String[]{String.valueOf(tarefa.getId())});
+        helperDao.getWritableDatabase().delete(TABELA, ID+" = ? ", new String[]{String.valueOf(tarefa.getId())});
 
     }
 
@@ -94,7 +95,7 @@ public class TarefaDao implements Closeable {
 
         Tarefa tarefa = new Tarefa();
 
-        tarefa.setId(cursor.getLong(cursor.getColumnIndex("id")));
+        tarefa.setId(cursor.getLong(cursor.getColumnIndex(ID)));
         tarefa.setDataDia(cursor.getString(cursor.getColumnIndex(DATA_DIA)));
         tarefa.setDescricao(cursor.getString(cursor.getColumnIndex(DESC)));
         tarefa.setHoraFinal(cursor.getInt(cursor.getColumnIndex(HORA_FINAL)));
