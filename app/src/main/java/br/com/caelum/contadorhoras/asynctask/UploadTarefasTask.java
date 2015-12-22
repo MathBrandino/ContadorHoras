@@ -34,13 +34,14 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, Integer> {
 
         int code = client.post(json);
 
+
         return code;
     }
 
     @Override
     protected void onPostExecute(Integer code) {
         super.onPostExecute(code);
-        if (code == HttpsURLConnection.HTTP_OK) {
+        if (code == HttpsURLConnection.HTTP_ACCEPTED) {
 
             finalizaRequest();
 

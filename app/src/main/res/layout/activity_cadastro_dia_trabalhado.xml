@@ -9,8 +9,8 @@
         android:id="@+id/toolbar_cadastro_dia_trabalhado"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="7dp"
         android:background="#2196F3"
+        android:elevation="7dp"
         app:titleTextColor="#FFFFFF" />
 
     <CalendarView

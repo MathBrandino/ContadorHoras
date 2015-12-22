@@ -21,16 +21,20 @@ public class TarefaConverter {
 
     public static final String LOGIN = "login";
     public static final String SENHA = "senha";
-    public static final String TAREFAS = "br.com.caelum.caelumweb2.modelo.consultoria.HoraExecutada";
-    public static final String PROJETO = "br.com.caelum.caelumweb2.modelo.consultoria.ProjetoConsultoria";
+    public static final String PROJETO = "projeto";
     public static final String INICIO = "inicio";
     public static final String FIM = "fim";
     public static final String TEMPO_ALMOCO = "tempoAlmoco";
     public static final String DURACAO = "duracao";
     public static final String COMENTARIOS = "comentarios";
     public static final String DATA = "data";
-    public static final String USUARIO = "br.com.caelum.caelumweb2.modelo.pessoas.Usuario";
+    public static final String USUARIO = "usuario";
     public static final String OBJETO = "br.com.caelum.caelumweb2.modelo.pessoas.UsuarioComHoras";
+    public static final String ID = "id";
+    public static final String HORAS = "horas";
+    public static final String HORA_EXECUTADA = "br.com.caelum.caelumweb2.modelo.consultoria.HoraExecutada";
+    public static final String TIME = "time";
+    public static final String TIMEZONE = "timezone";
 
     public String toJson(List<Tarefa> tarefas, Login login) {
 
@@ -38,23 +42,21 @@ public class TarefaConverter {
 
         try {
 
-            json.object().key(OBJETO).array();
+            json.object().key(OBJETO);
             json.object().key(USUARIO);
             json.object()
                     .key(LOGIN).value(login.getLogin())
                     .key(SENHA).value(login.getSenha());
             json.endObject();
-            json.endObject();
 
-            json.object().key(TAREFAS).array();
+
+            json.key(HORAS).array();
 
             for (Tarefa tarefa : tarefas) {
 
-                JSONStringer jsonTarefa = json.object();
+                JSONStringer jsonStringer = json.object().key(HORA_EXECUTADA);
 
-                jsonTarefa.key(PROJETO).value(tarefa.getIdCategoria());
-
-                Calendar dataCalendar = getCalendar(tarefa);
+                JSONStringer jsonTarefa = jsonStringer.object();
 
 
                 String inicio = geraInicio(tarefa);
@@ -70,13 +72,22 @@ public class TarefaConverter {
 
                 jsonTarefa.key(COMENTARIOS).value(tarefa.getDescricao());
 
-                jsonTarefa.key(DATA).value(dataCalendar.getTime());
+
+                Calendar dataCalendar = getCalendar(tarefa);
+
+                jsonTarefa.key(DATA).object()
+                        .key(TIME).value(dataCalendar.getTimeInMillis())
+                        .key(TIMEZONE).value(dataCalendar.getTimeZone())
+                        .endObject();
+
+                jsonTarefa.key(PROJETO).object().key(ID).value(tarefa.getIdCategoria()).endObject();
 
                 jsonTarefa.endObject();
-            }
 
+                jsonStringer.endObject();
+            }
             json.endArray().endObject();
-            json.endArray().endObject();
+            json.endObject();
 
 
         } catch (JSONException e) {
@@ -89,7 +100,6 @@ public class TarefaConverter {
     }
 
     private long geraDuracao(Tarefa tarefa) {
-        Long contador = 0L;
 
         int horaInicial = tarefa.getHoraInicial();
         int minutoInicial = tarefa.getMinutoInicial();
@@ -109,7 +119,7 @@ public class TarefaConverter {
             e.printStackTrace();
         }
 
-        contador = dateFinal.getTime() - dateInicial.getTime();
+        Long contador = dateFinal.getTime() - dateInicial.getTime();
 
 
         long minutos = (contador / 1000) / 60;

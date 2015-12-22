@@ -144,6 +144,5 @@ public class CadastroDiaHelper {
     public void mostraErroDataJaExiste() {
         Snackbar.make(getData(), "Você já possui um registro com essa data", Snackbar.LENGTH_SHORT).show();
 
-
     }
 }
