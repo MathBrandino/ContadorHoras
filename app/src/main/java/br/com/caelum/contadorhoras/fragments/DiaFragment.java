@@ -20,10 +20,8 @@ import java.util.List;
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.activity.CadastraTarefaActivity;
 import br.com.caelum.contadorhoras.activity.CadastroDiaTrabalhadoActivity;
-import br.com.caelum.contadorhoras.activity.ListaTarefasUploadActivity;
 import br.com.caelum.contadorhoras.activity.MainActivity;
 import br.com.caelum.contadorhoras.dao.DiaDao;
-import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.fragments.adapter.DiasTrabalhadosAdapter;
 import br.com.caelum.contadorhoras.modelo.Dia;
 
@@ -105,7 +103,6 @@ public class DiaFragment extends Fragment {
         getActivity().getMenuInflater().inflate(R.menu.dia_context_menu, menu);
 
         MenuItem deletar = menu.findItem(R.id.menu_deletar);
-        MenuItem upload = menu.findItem(R.id.menu_upload);
         MenuItem alterar = menu.findItem(R.id.menu_alterar);
         MenuItem tarefa = menu.findItem(R.id.menu_cadastra_tarefa);
 
@@ -133,35 +130,6 @@ public class DiaFragment extends Fragment {
             }
         });
 
-        upload.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                final TarefaDao dao = new TarefaDao(getContext());
-                if (dao.pegaTarefasDoDia(dia).size() >= 1) {
-
-                    Intent intent = new Intent(getActivity(), ListaTarefasUploadActivity.class);
-                    intent.putExtra("dia", dia);
-                    startActivity(intent);
-                } else {
-
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("Atenção !")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setMessage("Você não possui nenhuma hora para esse dia !")
-                            .setPositiveButton("Cadastrar hora  ", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent(getActivity(), CadastraTarefaActivity.class);
-                                    intent.putExtra("dia", dia);
-                                    startActivity(intent);
-                                }
-                            })
-                            .show();
-                    dao.close();
-                }
-                return true;
-            }
-        });
 
         tarefa.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

@@ -55,14 +55,7 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
-        View view;
-
-        if (convertView == null) {
-            view = activity.getLayoutInflater().inflate(R.layout.dias_trabalhados_item, parent, false);
-
-        } else {
-            view = convertView;
-        }
+        View view = criaView(convertView, parent);
 
         buscaViews(view);
 
@@ -74,6 +67,18 @@ public class DiasTrabalhadosAdapter extends BaseAdapter {
 
         colocaQuantidadeDeTarefas();
 
+
+        return view;
+    }
+
+    private View criaView(View convertView, ViewGroup parent) {
+        View view;
+        if (convertView == null) {
+            view = activity.getLayoutInflater().inflate(R.layout.dias_trabalhados_item, parent, false);
+
+        } else {
+            view = convertView;
+        }
         return view;
     }
 

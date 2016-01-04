@@ -3,6 +3,7 @@ package br.com.caelum.contadorhoras.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -17,7 +18,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import br.com.caelum.contadorhoras.R;
@@ -170,11 +175,26 @@ public class MainActivity extends AppCompatActivity {
                 List<Dia> dias = dao.pegaDias();
                 dao.close();
 
-                if (dias.size() > 0) {
+                List<Dia> diasValidos = new ArrayList<>();
+
+                Calendar dataAtual = pegaDiaAtual();
+
+
+                for (Dia dia : dias) {
+
+                    Date date = transformaDiaEmDate(dia);
+
+                    Calendar dataDaLista = transformaDateEmCalendar(date);
+
+                    colocaDatasValidasNaLista(diasValidos, dataAtual, dia, dataDaLista);
+
+                }
+
+                if (diasValidos.size() > 0) {
 
                     View view = View.inflate(this, R.layout.dias_subir_item, null);
 
-                    ListView list = criaListView(dias, view);
+                    ListView list = criaListView(diasValidos, view);
 
                     final AlertDialog alertDialog = criaAlertComDias(view);
 
@@ -193,6 +213,44 @@ public class MainActivity extends AppCompatActivity {
                 return true;
         }
         return true;
+    }
+
+    private void colocaDatasValidasNaLista(List<Dia> diasValidos, Calendar dataAtual, Dia dia, Calendar dataDaLista) {
+        if (dataDaLista.get(Calendar.DAY_OF_YEAR) < dataAtual.get(Calendar.DAY_OF_YEAR) - 14) {
+
+            diasValidos.add(dia);
+
+        }
+    }
+
+    @NonNull
+    private Calendar transformaDateEmCalendar(Date date) {
+        Calendar dataDaLista = Calendar.getInstance();
+        dataDaLista.setTimeInMillis(date.getTime());
+        return dataDaLista;
+    }
+
+    @Nullable
+    private Date transformaDiaEmDate(Dia dia) {
+        String data = dia.getData();
+        Date date = null;
+        try {
+            date = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
+    }
+
+    @NonNull
+    private Calendar pegaDiaAtual() {
+        long currentTimeMillis = System.currentTimeMillis();
+
+        Calendar dataAtual = Calendar.getInstance();
+
+        dataAtual.setTimeInMillis(currentTimeMillis);
+        return dataAtual;
     }
 
     private void vaiParaCadastroDeDia() {
