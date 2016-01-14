@@ -96,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
-                invalidateOptionsMenu();
             }
 
             @Override
@@ -129,46 +128,14 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.menu_main_activity, menu);
 
-        criaMenu(menu);
-
         return true;
     }
 
-    private void criaMenu(Menu menu) {
-
-        MenuItem add = menu.findItem(R.id.adicionar);
-        MenuItem subirHoras = menu.findItem(R.id.subir);
-        if (viewPager.getCurrentItem() == 1) {
-            add.setVisible(true);
-            add.setTitle("Adiciona Tarefa");
-        } else {
-            add.setVisible(false);
-        }
-
-        if (viewPager.getCurrentItem() == 0) {
-            subirHoras.setVisible(true);
-
-        } else {
-            subirHoras.setVisible(false);
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         DiaDao dao = new DiaDao(this);
         switch (item.getItemId()) {
-            case R.id.adicionar:
-
-                if (dao.pegaDias().size() >= 1) {
-                    Intent intent = new Intent(this, ListaDiasActivity.class);
-                    startActivity(intent);
-                } else {
-                    Snackbar.make(viewPager, "Você ainda não possui nenhum dia", Snackbar.LENGTH_SHORT).show();
-                }
-
-                dao.close();
-
-                return true;
 
             case R.id.subir:
 
@@ -201,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
                     eventoClickDaLista(list, alertDialog);
 
                 } else {
-                    Snackbar.make(getDiaFragment().getFab(), "Você não tem nenhum dia ", Snackbar.LENGTH_SHORT)
+                    Snackbar.make(viewPager, "Você não tem nenhum dia ", Snackbar.LENGTH_SHORT)
                             .setAction("Adicionar", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -216,7 +183,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void colocaDatasValidasNaLista(List<Dia> diasValidos, Calendar dataAtual, Dia dia, Calendar dataDaLista) {
-        if (dataDaLista.get(Calendar.DAY_OF_YEAR) < dataAtual.get(Calendar.DAY_OF_YEAR) - 14) {
+        if (dataDaLista.get(Calendar.DAY_OF_YEAR) > dataAtual.get(Calendar.DAY_OF_YEAR) - 14) {
 
             diasValidos.add(dia);
 

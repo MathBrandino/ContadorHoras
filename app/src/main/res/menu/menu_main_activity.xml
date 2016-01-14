@@ -3,13 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/adicionar"
-        android:icon="@android:drawable/ic_input_add"
-        android:title="Cadastrar tarefa"
-        app:showAsAction="always" />
-
-    <item
         android:id="@+id/subir"
-        android:title="Subir horas"
+        android:title="Salvar no CW"
         app:showAsAction="always" />
 </menu>

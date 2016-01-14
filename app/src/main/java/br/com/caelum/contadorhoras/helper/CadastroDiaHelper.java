@@ -39,7 +39,15 @@ public class CadastroDiaHelper {
         preparaToolbar();
 
         calendario = (CalendarView) activity.findViewById(R.id.calendario);
-        data = (TextView) activity.findViewById(R.id.data_inserida);
+
+        Calendar hoje = Calendar.getInstance();
+
+        calendario.setMaxDate(hoje.getTimeInMillis());
+        Calendar limite = (Calendar) hoje.clone();
+        limite.add(Calendar.DAY_OF_YEAR, -13);
+        calendario.setMinDate(limite.getTimeInMillis());
+
+        this.data = (TextView) activity.findViewById(R.id.data_inserida);
     }
 
     private void preparaToolbar() {

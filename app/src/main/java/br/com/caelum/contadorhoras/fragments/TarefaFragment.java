@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.ContextMenu;
@@ -18,9 +20,12 @@ import java.util.List;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.activity.CadastraTarefaActivity;
+import br.com.caelum.contadorhoras.activity.ListaDiasActivity;
 import br.com.caelum.contadorhoras.activity.MainActivity;
+import br.com.caelum.contadorhoras.dao.DiaDao;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
 import br.com.caelum.contadorhoras.fragments.adapter.TarefasAdapter;
+import br.com.caelum.contadorhoras.modelo.Dia;
 import br.com.caelum.contadorhoras.modelo.Tarefa;
 
 /**
@@ -29,6 +34,7 @@ import br.com.caelum.contadorhoras.modelo.Tarefa;
 public class TarefaFragment extends Fragment {
 
     private ListView listaAtividades;
+    private FloatingActionButton addTarefas;
     private Tarefa tarefa;
 
     @Nullable
@@ -38,6 +44,24 @@ public class TarefaFragment extends Fragment {
         View view = inflater.inflate(R.layout.tarefa_fragment, container, false);
 
         listaAtividades = (ListView) view.findViewById(R.id.lista_tarefas);
+
+        addTarefas = (FloatingActionButton) view.findViewById(R.id.tarefa_fragment_add);
+
+        addTarefas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DiaDao dao = new DiaDao(getContext());
+                List<Dia> dias = dao.pegaDias();
+                dao.close();
+
+                if (dias.size() > 0) {
+                    Intent intent = new Intent(getContext(), ListaDiasActivity.class);
+                    startActivity(intent);
+                } else {
+                    Snackbar.make(addTarefas, "Não tem nenhum dia para adicionar",Snackbar.LENGTH_LONG).show();
+                }
+            }
+        });
 
         registerForContextMenu(listaAtividades);
 

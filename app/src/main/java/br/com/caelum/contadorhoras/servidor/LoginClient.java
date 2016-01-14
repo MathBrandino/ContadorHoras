@@ -13,7 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class LoginClient {
 
-    public static final String HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_PROJETOS_DO_USUARIO = "https://sistema.caelum.com.br:8443/android/projetosDoUsuario";
+    public static final String HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_PROJETOS_DO_USUARIO = "https://sistema.caelum.com.br/android/projetosDoUsuario";
     private URL url;
     private String lista;
 

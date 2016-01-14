@@ -47,7 +47,7 @@ public class CadastraTarefaActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuItem salvar = menu.add("Salvar");
+        MenuItem salvar = menu.add("Adicionar");
         salvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         salvar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

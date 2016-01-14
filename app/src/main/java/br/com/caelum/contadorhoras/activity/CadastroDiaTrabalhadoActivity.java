@@ -1,5 +1,6 @@
 package br.com.caelum.contadorhoras.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -73,7 +74,7 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        MenuItem salvar = menu.add("Salvar");
+        MenuItem salvar = menu.add("Adicionar");
         salvar.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         salvar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -105,6 +106,9 @@ public class CadastroDiaTrabalhadoActivity extends AppCompatActivity {
     private void fazInsercao(Dia dia, DiaDao dao) {
         dao.insere(dia);
         Toast.makeText(CadastroDiaTrabalhadoActivity.this, "Dia salvo com sucesso", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, CadastraTarefaActivity.class);
+        intent.putExtra("dia", dia);
+        startActivity(intent);
         finish();
     }
 

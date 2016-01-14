@@ -1,5 +1,7 @@
 package br.com.caelum.contadorhoras.servidor;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.PrintStream;
 import java.net.MalformedURLException;
@@ -13,7 +15,7 @@ import javax.net.ssl.HttpsURLConnection;
  */
 public class HorasClient {
 
-    public static final String HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_SALVA_HORAS = "https://sistema.caelum.com.br:8443/android/salvaHoras";
+    public static final String HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_SALVA_HORAS = "https://sistema.caelum.com.br/android/salvaHoras";
     private URL url;
 
     public int post(String json) {
@@ -29,6 +31,7 @@ public class HorasClient {
             connection.setRequestProperty("Content-type", "application/json");
             PrintStream saida = new PrintStream(connection.getOutputStream());
 
+            Log.i("JSON", json);
             saida.println(json);
 
             connection.connect();
