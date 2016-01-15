@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -21,9 +22,9 @@ public class HorasClient {
     public int post(String json) {
 
         try {
-            url = new URL(HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_SALVA_HORAS);
+            url = new URL("http://192.168.84.224:9091/caelumweb2/externo/android/salvaHoras");
 
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);

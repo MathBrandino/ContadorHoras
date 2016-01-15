@@ -34,7 +34,6 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, Integer> {
 
         int code = client.post(json);
 
-
         return code;
     }
 

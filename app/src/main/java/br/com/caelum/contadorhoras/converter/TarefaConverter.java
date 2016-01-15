@@ -32,6 +32,7 @@ public class TarefaConverter {
     public static final String OBJETO = "br.com.caelum.caelumweb2.modelo.pessoas.UsuarioComHoras";
     public static final String ID = "id";
     public static final String HORAS = "horas";
+    public static final String LISTA_HORAS_EXECUTADAS = "br.com.caelum.caelumweb2.modelo.pessoas.ListaDeHorasExecutadas";
     public static final String HORA_EXECUTADA = "br.com.caelum.caelumweb2.modelo.consultoria.HoraExecutada";
     public static final String TIME = "time";
     public static final String TIMEZONE = "timezone";
@@ -49,12 +50,10 @@ public class TarefaConverter {
                     .key(SENHA).value(login.getSenha());
             json.endObject();
 
-
-            json.key(HORAS).array();
-
+            json.key(HORAS).array().object();
+            JSONStringer jsonStringer = json.key(HORA_EXECUTADA).array();
             for (Tarefa tarefa : tarefas) {
 
-                JSONStringer jsonStringer = json.object().key(HORA_EXECUTADA);
 
                 JSONStringer jsonTarefa = jsonStringer.object();
 
@@ -84,10 +83,13 @@ public class TarefaConverter {
 
                 jsonTarefa.endObject();
 
-                jsonStringer.endObject();
             }
+
+            jsonStringer.endArray().endObject();
+
             json.endArray().endObject();
-            json.endObject();
+
+            json.endObject().endObject();
 
 
         } catch (JSONException e) {
