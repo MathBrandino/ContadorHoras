@@ -1,5 +1,6 @@
 package br.com.caelum.contadorhoras.activity;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,11 +13,14 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
 
 import br.com.caelum.contadorhoras.R;
 import br.com.caelum.contadorhoras.adapter.TarefasUploadAdapter;
@@ -25,6 +29,7 @@ import br.com.caelum.contadorhoras.converter.TarefaConverter;
 import br.com.caelum.contadorhoras.dao.DiaDao;
 import br.com.caelum.contadorhoras.dao.LoginDao;
 import br.com.caelum.contadorhoras.dao.TarefaDao;
+import br.com.caelum.contadorhoras.delegate.LancaHorasDelegate;
 import br.com.caelum.contadorhoras.modelo.Dia;
 import br.com.caelum.contadorhoras.modelo.Login;
 import br.com.caelum.contadorhoras.modelo.Tarefa;
@@ -32,7 +37,7 @@ import br.com.caelum.contadorhoras.modelo.Tarefa;
 /**
  * Created by matheus on 12/11/15.
  */
-public class ListaTarefasUploadActivity extends AppCompatActivity {
+public class ListaTarefasUploadActivity extends AppCompatActivity  implements LancaHorasDelegate{
 
     private ListView listaTarefas;
     private Toolbar toolbar;
@@ -81,7 +86,6 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
                 .setPositiveButton("Sim ", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        //alertaComJson();
                         enviaJsonParaServidor(geraJson());
 
                     }
@@ -201,13 +205,46 @@ public class ListaTarefasUploadActivity extends AppCompatActivity {
         return login;
     }
 
-    private AlertDialog alertaComJson() {
-        return new AlertDialog.Builder(this).setMessage(geraJson()).show();
-    }
-
     private void enviaJsonParaServidor(String json) {
 
         new UploadTarefasTask(json, this).execute();
 
+    }
+
+    @Override
+    public void lidaComErro(Exception erro) {
+        new AlertDialog.Builder(this)
+                .setMessage("Você deseja tentar novamente ?")
+                .setTitle("Tivemos algum problema")
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        enviaJsonParaServidor(geraJson());
+                    }
+                })
+                .setNegativeButton("Não", null)
+                .show();
+    }
+
+    @Override
+    public void lidaComRetorno(int codigo) {
+
+        if (codigo == HttpsURLConnection.HTTP_ACCEPTED){
+            removeDia();
+            Toast.makeText(ListaTarefasUploadActivity.this, "Horas Cadastradas no CW", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+    }
+
+    private void removeDia() {
+        DiaDao dao = new DiaDao(this);
+        dao.deleta(pegaDia());
+        dao.close();
+    }
+
+    @Override
+    public Context getContext() {
+        return getContext();
     }
 }
