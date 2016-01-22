@@ -233,6 +233,8 @@ public class ListaTarefasUploadActivity extends AppCompatActivity  implements La
             removeDia();
             Toast.makeText(ListaTarefasUploadActivity.this, "Horas Cadastradas no CW", Toast.LENGTH_SHORT).show();
             finish();
+        } else {
+            lidaComErro(null);
         }
 
     }
