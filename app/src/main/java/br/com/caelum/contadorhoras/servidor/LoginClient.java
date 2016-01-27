@@ -2,7 +2,6 @@ package br.com.caelum.contadorhoras.servidor;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
@@ -20,8 +19,8 @@ public class LoginClient {
 
     public String post(String json) {
         try {
-            url = new URL("http://192.168.84.224:9091/caelumweb2/externo/android/projetosDoUsuario");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            url = new URL(HTTPS_SISTEMA_CAELUM_COM_BR_8443_ANDROID_PROJETOS_DO_USUARIO);
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
 
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-type", "application/json");
