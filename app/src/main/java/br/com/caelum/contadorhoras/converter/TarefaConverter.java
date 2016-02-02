@@ -1,6 +1,7 @@
 package br.com.caelum.contadorhoras.converter;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONStringer;
@@ -89,7 +90,8 @@ public class TarefaConverter {
 
             json.endArray().endObject();
 
-            json.endObject().endObject();
+            json.endObject();
+
 
 
         } catch (JSONException e) {
@@ -97,8 +99,11 @@ public class TarefaConverter {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        String jsonFinal = json.toString();
 
-        return json.toString();
+        Log.i("jsonFinal", jsonFinal);
+
+        return jsonFinal;
     }
 
     private long geraDuracao(Tarefa tarefa) {

@@ -2,6 +2,7 @@ package br.com.caelum.contadorhoras.asynctask;
 
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import br.com.caelum.contadorhoras.delegate.LancaHorasDelegate;
 import br.com.caelum.contadorhoras.servidor.HorasClient;
@@ -26,6 +27,8 @@ public class UploadTarefasTask extends AsyncTask<Void, Void, Integer> {
 
         try {
             HorasClient client = new HorasClient();
+
+            Log.i("json", json);
 
             int code = client.post(json);
 

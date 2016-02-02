@@ -247,6 +247,6 @@ public class ListaTarefasUploadActivity extends AppCompatActivity  implements La
 
     @Override
     public Context getContext() {
-        return getContext();
+        return this;
     }
 }
